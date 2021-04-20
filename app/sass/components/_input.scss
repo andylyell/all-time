@@ -1,0 +1,29 @@
+.input {
+    margin-bottom: 32px;
+    width: 100%;
+    display: flex;
+    position: relative;
+
+    & input {
+        font-size: 14px;
+        color: $light-grey-1;
+        padding: 0 64px 0 16px;
+        width: 100%;
+        border-radius: $border-radius-1;
+        height: 40px;
+        background: $dark-grey-1;
+        border: 1px solid $dark-grey-2;
+
+        &:focus {
+            border: 1px solid $light-grey-2;
+            outline: none;
+        }
+    }
+
+    &__button {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 0;
+    }
+}

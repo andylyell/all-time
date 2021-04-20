@@ -16,7 +16,9 @@ const db = new Datastore({ filename: './timers.db', autoload: true });
 function createWindow() {
     const win = new BrowserWindow({
         width: 464,
+        minWidth: 464,
         height: 720,
+        minHeight: 720,
         webPreferences: {
             nodeIntegration: true,
             contextIsolation: false,

@@ -4,6 +4,12 @@
 //Base
 @import './base/base';
 //components
+@import './components/button'; 
+@import './components/history-card'; 
+@import './components/input';
+@import './components/menu'; 
+@import './components/timer'; 
 //layout
 @import './layout/structure';
+@import './layout/navigation'; 
 //vendors

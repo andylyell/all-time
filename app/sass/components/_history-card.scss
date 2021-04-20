@@ -1,0 +1,31 @@
+.history-card {
+    background: $dark-grey-3;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: $border-radius-1;
+    margin-bottom: 8px;
+
+    &__info {
+
+    }
+
+    &__name {
+        margin-bottom: 4px;
+    }
+
+    &__date {
+        font-family: $monospace-font-1;
+        color: $monospace-colour-1;
+        font-size: 12px;
+    }
+
+    &__time {
+        font-family: $monospace-font-1;
+        font-size: 14px;
+        & span {
+            font-size: 20px;
+        }
+    }
+}

@@ -2,12 +2,12 @@ const electron = require('electron');
 const { ipcRenderer } = electron;
 
 
-document.querySelector('button');
+// document.querySelector('button');
 
-button.addEventListener('click', () => {
-    ipcRenderer.send('button-click', 'the button has been clicked son');
-    console.log('clicked');
-});
+// button.addEventListener('click', () => {
+//     ipcRenderer.send('button-click', 'the button has been clicked son');
+//     console.log('clicked');
+// });
 
 
 

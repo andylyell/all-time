@@ -1,0 +1,43 @@
+.button {
+
+    background: none;
+    border: 0;
+    cursor: pointer;
+    border-radius: $border-radius-1;
+
+    p {
+        font-size: 14;
+        margin-right: 8px;
+    }
+
+    &__primary {
+
+        color: $dark-grey-1;
+        display: flex;
+        align-items: center;
+        height: 40px;
+        padding: 0 16px;
+        background: linear-gradient(102.93deg, #FD7CAB 16.6%, #FF8F6B 54.14%, #E85B48 88.68%);
+
+        & svg {
+            width: 20px;
+            height: 20px;
+            fill: $dark-grey-1;
+        }
+    }
+
+    &__secondary {
+
+        padding: 4px;
+        border: 1px solid $dark-grey-2;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        & svg {
+            width: 32px;
+            height: 32px;
+        }
+    }
+
+}

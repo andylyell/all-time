@@ -3,18 +3,134 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Hello World!</title>
+    <title>Work Time</title>
     <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
     <link rel="stylesheet" href="./css/style.css">
 </head>
 
 <body>
-    <h1>Hello World!</h1>
-    <button id="button"> click me </button>
-    <!-- <button id="create"> click me </button> -->
-    <!-- <button id="updare"> click me </button>
-    <button id="delete"> click me </button>
-    <button id="retrieve"> click me </button> -->
+
+    <div class="menu">
+        <div class="menu__header">
+
+            <button class="button button__primary">
+                <p>Reset history</p>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+                    <path d="M18 28A12 12 0 106 16v6.2l-3.6-3.6L1 20l6 6 6-6-1.4-1.4L8 22.2V16a10 10 0 1110 10z" />
+                    <path data-name="&lt;Transparent Rectangle&gt;" fill="none" d="M0 0h32v32H0z" />
+                </svg>
+            </button>
+            <button class="menu__button button button__secondary">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+                    <defs>
+                        <style>
+                            .cls-1 {
+                                fill: #D6D6D6;
+                            }
+
+                            .cls-2 {
+                                fill: none;
+                            }
+                        </style>
+                    </defs>
+                    <polygon class="cls-1"
+                        points="24 9.4 22.6 8 16 14.6 9.4 8 8 9.4 14.6 16 8 22.6 9.4 24 16 17.4 22.6 24 24 22.6 17.4 16 24 9.4" />
+                    <rect class="cls-2" width="32" height="32" />
+                </svg>
+            </button>
+        </div>
+        <div class="input menu__search">
+            <input placeholder="Search timers" type="text" name="search-timers">
+        </div>
+        <div class="menu__history-container">
+
+            <div class="history-card">
+                <div class="history-card__info">
+                    <p class="history-card__name">Workday1</p>
+                    <p class="history-card__date">2021-04-21</p>
+                </div>
+                <p class="history-card__time"><span>8</span>h:<span>24</span>m:32s</p>
+            </div>
+
+            <div class="history-card">
+                <div class="history-card__info">
+                    <p class="history-card__name">Workday2</p>
+                    <p class="history-card__date">2021-04-21</p>
+                </div>
+                <p class="history-card__time"><span>8</span>h:<span>24</span>m:32s</p>
+            </div>
+
+        </div>
+    </div>
+
+    <nav class="navigation">
+        <div class="navigation__name-container">
+            <svg viewbox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M32 58a26 26 0 0018.38-44.38 4 4 0 00-5.65 5.65 18 18 0 11-28 3.14l12.44 12.42a4.002 4.002 0 005.66-5.66L19.27 13.62a2.925 2.925 0 00-.42-.37 4 4 0 00-5.23.37A26 26 0 0032 58z"
+                    fill="#000" />
+                <path
+                    d="M32 58a26 26 0 0018.38-44.38 4 4 0 00-5.65 5.65 18 18 0 11-28 3.14l12.44 12.42a4.002 4.002 0 005.66-5.66L19.27 13.62a2.925 2.925 0 00-.42-.37 4 4 0 00-5.23.37A26 26 0 0032 58z"
+                    fill="url(#paint0_linear)" />
+                <defs>
+                    <linearGradient id="paint0_linear" x1="32" y1="12.449" x2="32" y2="58"
+                        gradientUnits="userSpaceOnUse">
+                        <stop stop-color="#F17D63" />
+                        <stop offset=".516" stop-color="#E9527F" />
+                        <stop offset=".979" stop-color="#E3205B" />
+                    </linearGradient>
+                </defs>
+            </svg>
+            <p class="navigation__name"><span>Work</span> Time</p>
+        </div>
+        <div class="navigation__menu-button">
+            <button class="button button__secondary">
+                <svg viewbox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="7" y="7" width="7" height="7" rx="1" stroke="#D6D6D6" stroke-width="2" />
+                    <rect x="7" y="18" width="7" height="7" rx="1" stroke="#D6D6D6" stroke-width="2" />
+                    <rect x="18" y="7" width="7" height="7" rx="1" stroke="#D6D6D6" stroke-width="2" />
+                    <rect x="18" y="18" width="7" height="7" rx="1" stroke="#D6D6D6" stroke-width="2" />
+                </svg>
+            </button>
+        </div>
+    </nav>
+
+    <div class="input">
+        <input placeholder="Enter a timer name" type="text" name="add-timer">
+        <button class="input__button button button__primary">
+            <p>Add</p>
+            <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 32 32">
+                <path
+                    d="M16 4c6.6 0 12 5.4 12 12s-5.4 12-12 12S4 22.6 4 16 9.4 4 16 4m0-2C8.3 2 2 8.3 2 16s6.3 14 14 14 14-6.3 14-14S23.7 2 16 2z" />
+                <path d="M24 15h-7V8h-2v7H8v2h7v7h2v-7h7z" />
+                <path fill="none" d="M0 0h32v32H0z" />
+            </svg>
+        </button>
+    </div>
+
+    <!-- <p>Add timer to get started</p> -->
+
+    <div id="timer-container" class="timer-container">
+
+        <div class="timer active">
+            <h2>Workday 1</h2>
+            <p class="timer__date">Created 2021-04-15</p>
+            <p class="timer__time">0<span>:00</span> </p>
+            <div class="timer__controls">
+                <div class="timer__control-time">
+
+                </div>
+                <div class="timer__control-timer">
+                    control timer
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- <h1>Hello World!</h1> -->
+    <!-- <button id="button"> click me </button> -->
+
 </body>
 <script src="app.js"></script>
 

@@ -1,0 +1,27 @@
+.navigation {
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+
+    &__name-container {
+
+        display: flex;
+        align-items: center;
+
+        & svg {
+            margin-right: 16px;
+            width: 40px;
+            height: 40px;
+        }
+    }
+
+    &__name {
+        text-transform: uppercase;
+        font-size: 14px;
+        & span {
+            font-weight: bold;
+        }
+    }
+}
