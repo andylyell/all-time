@@ -25,6 +25,7 @@
         width: 40px;
         height: 40px;
         & svg {
+            pointer-events: none;
             width: 24px;
             height: 24px;
         }

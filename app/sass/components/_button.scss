@@ -20,6 +20,7 @@
         background: linear-gradient(102.93deg, #FD7CAB 16.6%, #FF8F6B 54.14%, #E85B48 88.68%);
 
         & svg {
+            pointer-events: none;
             width: 20px;
             height: 20px;
             fill: $dark-grey-1;
@@ -35,6 +36,7 @@
         justify-content: center;
 
         & svg {
+            pointer-events: none;
             width: 32px;
             height: 32px;
         }
@@ -45,6 +47,7 @@
         align-items: center;
         justify-content: center;
         & svg {
+            pointer-events: none;
             fill: $button-grey-1;
             width: 24px;
             height: 24px;

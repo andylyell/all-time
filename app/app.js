@@ -15,8 +15,24 @@ DOMElements.menuCloseButton.addEventListener('click', () => {
 DOMElements.resetHistoryButton.addEventListener('click', () => {
 
     console.log('reset history button');
-})
+});
 
+DOMElements.addButton.addEventListener('click', () => {
+
+    // guard clause if no input
+    if(DOMElements.inputTimer.value === '') {
+        DOMElements.inputContainer.classList.add('input--error');
+        return;
+    }
+
+
+    console.log('addTimer');
+});
+
+DOMElements.inputTimer.addEventListener('input', (e) => {
+    console.log(e.target.value);
+
+})
 
 document.addEventListener('click', (e) => {
     if(e.target.classList.contains('history-delete-button')) {
@@ -32,10 +48,6 @@ document.addEventListener('click', (e) => {
 //     ipcRenderer.send('button-click', 'the button has been clicked son');
 //     console.log('clicked');
 // });
-
-
-
-console.log('app.js and the rest');
 
 // In renderer process (web page).
 // console.log(ipcRenderer.sendSync('synchronous-message', 'ping')) // prints "pong"

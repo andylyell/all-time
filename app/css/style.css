@@ -26,6 +26,7 @@ body {
     padding: 0 16px;
     background: linear-gradient(102.93deg, #FD7CAB 16.6%, #FF8F6B 54.14%, #E85B48 88.68%); }
     .button__primary svg {
+      pointer-events: none;
       width: 20px;
       height: 20px;
       fill: #26282B; }
@@ -36,6 +37,7 @@ body {
     align-items: center;
     justify-content: center; }
     .button__secondary svg {
+      pointer-events: none;
       width: 32px;
       height: 32px; }
   .button__tertiary {
@@ -43,6 +45,7 @@ body {
     align-items: center;
     justify-content: center; }
     .button__tertiary svg {
+      pointer-events: none;
       fill: #E5E5E5;
       width: 24px;
       height: 24px; }
@@ -79,6 +82,17 @@ body {
   width: 100%;
   display: flex;
   position: relative; }
+  .input--error {
+    position: relative;
+    border: 1px solid #FF7D9C;
+    border-radius: 6px; }
+    .input--error::after {
+      content: 'Enter a name';
+      position: absolute;
+      font-size: 12px;
+      top: 42px;
+      left: 2px;
+      color: #F23462; }
   .input input {
     font-size: 14px;
     color: #D0D0D0;
@@ -121,6 +135,7 @@ body {
     width: 40px;
     height: 40px; }
     .menu__button svg {
+      pointer-events: none;
       width: 24px;
       height: 24px; }
   .menu.show {
@@ -194,6 +209,7 @@ body {
     display: flex;
     align-items: center; }
     .navigation__name-container svg {
+      pointer-events: none;
       margin-right: 16px;
       width: 40px;
       height: 40px; }

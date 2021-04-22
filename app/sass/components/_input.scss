@@ -4,6 +4,21 @@
     display: flex;
     position: relative;
 
+    &--error {
+        position: relative;
+        border: 1px solid $pink-2;
+        border-radius: $border-radius-1;
+
+        &::after {
+            content: 'Enter a name';
+            position: absolute;
+            font-size: 12px;
+            top: 42px;
+            left: 2px;
+            color: $error-1;
+        }
+    }
+
     & input {
         font-size: 14px;
         color: $light-grey-1;
