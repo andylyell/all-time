@@ -1,3 +1,3 @@
-const Timer = {
+export const Timer = {
 
 };

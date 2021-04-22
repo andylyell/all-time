@@ -1,5 +1,29 @@
 const electron = require('electron');
 const { ipcRenderer } = electron;
+const DOMElements = require('./js/DOMElements');
+
+
+//EVENT LISTENERS
+DOMElements.menuButton.addEventListener('click', () => {
+    DOMElements.menu.classList.add('show');
+});
+
+DOMElements.menuCloseButton.addEventListener('click', () => {
+    DOMElements.menu.classList.remove('show');
+});
+
+DOMElements.resetHistoryButton.addEventListener('click', () => {
+
+    console.log('reset history button');
+})
+
+
+document.addEventListener('click', (e) => {
+    if(e.target.classList.contains('history-delete-button')) {
+
+    }
+})
+
 
 
 // document.querySelector('button');

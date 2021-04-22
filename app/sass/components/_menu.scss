@@ -6,10 +6,10 @@
     width: 366px;
     top: 0;
     bottom: 0;
-    right: 0;
-    z-index: 10;
+    right: -366px;
+    z-index: 100;
     padding: 16px;
-    display: none;
+    transition: $transition-1;
 
     &__header {
         display: flex;
@@ -28,6 +28,10 @@
             width: 24px;
             height: 24px;
         }
+    }
+
+    &.show {
+        right: 0;
     }
 
 }

@@ -11,6 +11,11 @@
 
     }
 
+    &__time-container {
+        display: flex;
+        align-items: center;
+    }
+
     &__name {
         margin-bottom: 4px;
     }
@@ -24,6 +29,7 @@
     &__time {
         font-family: $monospace-font-1;
         font-size: 14px;
+        margin-right: 16px;
         & span {
             font-size: 20px;
         }

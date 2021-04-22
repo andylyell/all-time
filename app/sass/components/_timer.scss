@@ -8,6 +8,7 @@
     & h2 {
         font-size: 16px;
         margin-bottom: 4px;
+        font-weight: 400;
     }
 
     &__date {
@@ -20,21 +21,51 @@
     &__time {
         font-family: $monospace-font-1;
         font-size: 64px;
+        margin-bottom: 8px;
         & span {
             font-size: 32px;
         }
     }
 
     &__controls {
-
+        display: inline-block;
+        height: 40px;
+        position: relative;
+        z-index: 10;
     }
 
     &__control-time {
-
+        height: 40px;
+        padding: 0 16px;
+        background: $dark-grey-4;
+        border-radius: $border-radius-1;
+        border: 1px solid #45484D;
+        display: flex;
+        align-items: center;
+        & button:not(:last-child) {
+            margin-right: 16px;
+        }
     }
 
     &__control-timer {
-
+        position: absolute;
+        height: 40px;
+        top: 0;
+        right: 0;
+        padding: 0 16px 0 16px;
+        display: flex;
+        align-items: center;
+        border: 1px solid $dark-grey-2;
+        z-index: -1;
+        border-radius: $border-radius-1;
+        transition: $transition-1;
+        & button:not(:last-child) {
+            margin-right: 16px;
+        }
+        &.show {
+            right: -96px;
+            padding-left: 32px;
+        }
     }
 
     &.active {

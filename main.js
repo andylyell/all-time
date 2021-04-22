@@ -27,6 +27,7 @@ function createWindow() {
     win.loadFile('./app/index.html');
     win.resizable = true;
     win.shadow = true;
+    win.webContents.openDevTools()
     win.on('blur', () => {
         console.log('Lost focus');
     })

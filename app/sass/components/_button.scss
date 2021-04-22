@@ -40,4 +40,20 @@
         }
     }
 
+    &__tertiary {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        & svg {
+            fill: $button-grey-1;
+            width: 24px;
+            height: 24px;
+        }
+
+        &--disabled {
+            opacity: .3;
+            cursor: not-allowed;
+        }
+    }
+
 }
