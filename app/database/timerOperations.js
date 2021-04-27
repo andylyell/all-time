@@ -38,7 +38,14 @@ module.exports = {
     },
 
     //delete activeTimer
-    deleteTimer: (database, data) => {
-        console.log('delete');
+    deleteActiveTimer: (dbCollection, timerId) => {
+        return new Promise((resolve, reject) => {
+            dbCollection.remove({ _id: timerId }, {}, function (err, numRemoved) {
+                if(err) {
+                    reject(err);
+                }
+                resolve('removed timer')
+            });
+        })
     }
 }

@@ -17,6 +17,13 @@ ipcRenderer.on('databases-loaded', (event, args) => {
     renderActiveTimers(activeTimers);
 });
 
+//update activeTimers
+ipcRenderer.on('update-active-timers', (event, args) => {
+    console.log('updated');
+    activeTimers = args;
+    renderActiveTimers(activeTimers);
+});
+
 
 
 //Get savedTimers data from main process
@@ -58,7 +65,7 @@ DOMElements.addButton.addEventListener('click', () => {
 
     console.log(newActiveTimer);
 
-    ipcRenderer.send('addNewTimer', newActiveTimer);
+    ipcRenderer.send('add-new-timer', newActiveTimer);
 
     console.log('addTimer');
 });
@@ -68,24 +75,34 @@ DOMElements.inputTimer.addEventListener('input', (e) => {
 
 })
 
+//general event listeners
 document.addEventListener('click', (e) => {
-    if(e.target.classList.contains('history-delete-button')) {
 
+    ////////////////////////////
+    //ACTIVE TIMER EVENTS
+    ////////////////////////////
+
+    //listen to play button events
+
+    //listen to pause button events
+
+    //listn to reset button events
+
+    //listen to save button events
+    if(e.target.id === 'save-button') {
+        console.log('save active timer');
     }
-})
+
+    //listen to delete button events
+    if(e.target.id === 'delete-button') {
+        let activeTimerId = e.target.closest('.timer').id; //get elements id
+        ipcRenderer.send('remove-active-timer', activeTimerId); //pass onto main process to remove from DB
+    };
 
 
+    ////////////////////////////
+    //SAVED TIMER EVENTS
+    ////////////////////////////
 
-// document.querySelector('button');
-
-// DOMElements.addButton.addEventListener('click', () => {
-//     ipcRenderer.send('button-click', 'the button has been clicked son');
-//     console.log('clicked');
-// });
-
-// In renderer process (web page).
-// console.log(ipcRenderer.sendSync('synchronous-message', 'ping')) // prints "pong"
-// ipcRenderer.on('asynchronous-reply', (event, arg) => {
-//   console.log(arg) // prints "pong"
-// })
-// ipcRenderer.send('asynchronous-message', 'async-ping')
+    // listen to delete button events
+});

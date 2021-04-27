@@ -7,14 +7,22 @@ const path = require('path');
 const Datastore = require('nedb');
 const {
     createTimer,
-    getAllActiveTimers
+    getAllActiveTimers,
+    deleteActiveTimer
 } = require('./app/database/timerOperations');
 
-//create data base
-const db = {};
-// load collections
+////////////////////////////
+// DATABASE SET UP
+////////////////////////////
+
+const db = {}; //init empty object as datastore
+// load collections into empty db object
 db.activeTimers = new Datastore({ filename: './collections/activeTimers.db', autoload: true });
 db.savedTimers = new Datastore({ filename: './collections/savedTimers.db', autoload: true });
+
+////////////////////////////
+// CREATE WINDOW
+////////////////////////////
 
 // function to create a new window
 function createWindow() {
@@ -47,16 +55,6 @@ app.whenReady().then(() => {
     })
 });
 
-ipcMain.on('loadAll', (event, args) => {
-    getAllActiveTimers(db.activeTimers)
-            .then((items) => {
-            event.reply('databases-loaded', items);
-        })
-        .catch((err) => {
-            event.reply('databases-loaded', err);
-        })
-})
-
 app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') {
         app.quit()
@@ -69,8 +67,25 @@ app.on('activate', function () {
     if (BrowserWindow.getAllWindows().length === 0) createWindow()
 });
 
-ipcMain.on('addNewTimer', (event, newActiveTimer) => {
-    console.log(newActiveTimer);
+
+////////////////////////////
+// INTER PROCESS LISTENERS
+////////////////////////////
+
+// load all listeners from db and send to renderer
+ipcMain.on('loadAll', (event, args) => {
+    getAllActiveTimers(db.activeTimers)
+            .then((items) => {
+            event.reply('databases-loaded', items);
+        })
+        .catch((err) => {
+            event.reply('databases-loaded', err);
+        })
+})
+
+// add a new timer
+ipcMain.on('add-new-timer', (event, newActiveTimer) => {
+    // console.log(newActiveTimer);
     console.log(db.activeTimers.indexes);
 
     createTimer(db.activeTimers, newActiveTimer)
@@ -82,10 +97,32 @@ ipcMain.on('addNewTimer', (event, newActiveTimer) => {
             // event.reply('databases-loaded', err);
         });
 
-    // db.activeTimers.insert(arg, function(err, newTimer){
-    //     console.log(newTimer);
-    // })
-    // event.returnValue = 'added';
+    getAllActiveTimers(db.activeTimers)
+    .then((items) => {
+        event.reply('update-active-timers', items);
+    })
+    .catch((err) => {
+        event.reply('update-active-timers', err);
+    })
 
-    // createTimer();
+});
+
+// remove active timer from db
+ipcMain.on('remove-active-timer', (event, activeTimerId) => {
+
+    deleteActiveTimer(db.activeTimers, activeTimerId)
+    .then((result) => {
+        console.log(result);
+    })
+    .catch((err) => {
+        console.log(err);
+    })
+
+    getAllActiveTimers(db.activeTimers)
+            .then((items) => {
+            event.reply('update-active-timers', items);
+        })
+        .catch((err) => {
+            event.reply('update-active-timers', err);
+        })
 });
