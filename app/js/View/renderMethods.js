@@ -12,8 +12,9 @@ module.exports = {
             return;
         }
 
+        DOMElements.activeTimerContainer.innerHTML = '';
         activeTimers.forEach((activeTimer) => {
-            DOMElements.activeTimerContainer.innerHTML = '';
+            console.log(activeTimer);
             DOMElements.activeTimerContainer.insertAdjacentHTML('beforeend', activeTimerTemplate(activeTimer));
         })
     },
