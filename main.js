@@ -6,11 +6,15 @@ const {
 const path = require('path');
 const Datastore = require('nedb');
 const {
-    createTimer
+    createTimer,
+    getAllActiveTimers
 } = require('./app/database/timerOperations');
 
-//load database
-const db = new Datastore({ filename: './timers.db', autoload: true });
+//create data base
+const db = {};
+// load collections
+db.activeTimers = new Datastore({ filename: './collections/activeTimers.db', autoload: true });
+db.savedTimers = new Datastore({ filename: './collections/savedTimers.db', autoload: true });
 
 // function to create a new window
 function createWindow() {
@@ -28,9 +32,9 @@ function createWindow() {
     win.resizable = true;
     win.shadow = true;
     win.webContents.openDevTools()
-    win.on('blur', () => {
-        console.log('Lost focus');
-    })
+    // win.on('blur', () => {
+    //     console.log('Lost focus');
+    // })
 }
 
 app.whenReady().then(() => {
@@ -42,6 +46,16 @@ app.whenReady().then(() => {
         }
     })
 });
+
+ipcMain.on('loadAll', (event, args) => {
+    getAllActiveTimers(db.activeTimers)
+            .then((items) => {
+            event.reply('databases-loaded', items);
+        })
+        .catch((err) => {
+            event.reply('databases-loaded', err);
+        })
+})
 
 app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') {
@@ -55,44 +69,23 @@ app.on('activate', function () {
     if (BrowserWindow.getAllWindows().length === 0) createWindow()
 });
 
-//receiving these message initially from the renderer process
-// ipcMain.on('asynchronous-message', (event, arg) => {
-//     console.log(arg) // prints "ping"
-//     event.reply('asynchronous-reply', 'async-pong')
-// })
+ipcMain.on('addNewTimer', (event, newActiveTimer) => {
+    console.log(newActiveTimer);
+    console.log(db.activeTimers.indexes);
 
-// ipcMain.on('synchronous-message', (event, arg) => {
-//     console.log(arg) // prints "ping"
-//     event.returnValue = 'pong'
-// })
+    createTimer(db.activeTimers, newActiveTimer)
+        .then((message) => {
+            console.log(message);
+        })
+        .catch((err) => {
+            console.log(err);
+            // event.reply('databases-loaded', err);
+        });
 
-ipcMain.on('button-click', (event, arg) => {
-    console.log(arg);
-    console.log(db.indexes);
+    // db.activeTimers.insert(arg, function(err, newTimer){
+    //     console.log(newTimer);
+    // })
+    // event.returnValue = 'added';
 
-    const entry = {
-        'message': arg
-    }
-
-    db.insert(entry, function(err, newTimer){
-        console.log(newTimer);
-    })
-    event.returnValue = 'added';
-
-    createTimer();
-})  
-
-// var doc = { hello: 'world'
-//                , n: 5
-//                , today: new Date()
-//                , nedbIsAwesome: true
-//                , notthere: null
-//                , notToBeSaved: undefined  // Will not be saved
-//                , fruits: [ 'apple', 'orange', 'pear' ]
-//                , infos: { name: 'nedb' }
-//                };
-
-// db.insert(doc, function (err, newDoc) {   // Callback is optional
-//   // newDoc is the newly inserted document, including its _id
-//   // newDoc has no key called notToBeSaved since its value was undefined
-// });
+    // createTimer();
+});

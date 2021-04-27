@@ -1,27 +1,43 @@
 module.exports = {
 
-    //create
-    createTimer: (database, data) => {
-        console.log('create');
+    //create activeTimer
+    createTimer: (dbCollection, newActiveTimer) => {
+
+        return new Promise((resolve, reject) => {
+            dbCollection.insert(newActiveTimer, err => {
+                if(err){
+                    throw new Error(err)
+                } 
+                resolve('added new active timer');
+            });
+        })
     },
 
-    //retrieve all
-    getAllTimers: (database) => {
-        console.log('get all');
+    //retrieve all active Timers
+    getAllActiveTimers: (dbCollection) => {
+        return new Promise((resolve, reject) => {
+            dbCollection.find({}, (err, items) => {
+                if(items) {
+                    resolve(items);
+                } else {
+                    reject(err);
+                }
+            });
+        })
     },
 
-    //retrieve
+    //retrieve single activeTimer
     getTimer: (database, data) => {
         console.log('get one');
     },
     
     
-    //update
+    //update activeTimer
     updateTimer: (database, data) => {
         console.log('update');
     },
 
-    //delete
+    //delete activeTimer
     deleteTimer: (database, data) => {
         console.log('delete');
     }
