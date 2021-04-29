@@ -106,6 +106,9 @@ document.addEventListener('click', (e) => {
     ////////////////////////////
 
     //listen to play button events
+    if(e.target.id === 'play-button') {
+        console.log('play');
+    }
 
     //listen to pause button events
 
