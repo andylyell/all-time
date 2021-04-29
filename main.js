@@ -18,7 +18,7 @@ const {
 const db = {}; //init empty object as datastore
 // load collections into empty db object
 db.activeTimers = new Datastore({ filename: './collections/activeTimers.db', autoload: true });
-db.savedTimers = new Datastore({ filename: './collections/savedTimers.db', autoload: true });
+// db.savedTimers = new Datastore({ filename: './collections/savedTimers.db', autoload: true });
 
 ////////////////////////////
 // CREATE WINDOW
@@ -126,3 +126,4 @@ ipcMain.on('remove-active-timer', (event, activeTimerId) => {
             event.reply('update-active-timers', err);
         })
 });
+

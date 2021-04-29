@@ -2,7 +2,7 @@ const electron = require('electron');
 const { ipcRenderer } = electron;
 const DOMElements = require('./js/DOMElements');
 const ActiveTimer = require('./js/Model/ActiveTimer');
-const { renderActiveTimers } = require('./js/View/renderMethods');
+const { renderActiveTimers, renderSavedTimers } = require('./js/View/renderMethods');
 
 let activeTimers;
 let savedTimers;
@@ -11,23 +11,45 @@ let savedTimers;
 window.addEventListener('load', () => ipcRenderer.send('loadAll'));
 //Get activeTimer data from Main Process
 ipcRenderer.on('databases-loaded', (event, args) => {
-    //receive data
-    activeTimers = args
-    //call render function
-    renderActiveTimers(activeTimers);
+    // activeTimers = args
+    const allTimers = sortTimers(args);
+    renderActiveTimers(allTimers.activeTimers);
+    renderSavedTimers(allTimers.savedTimers);
 });
 
 //update activeTimers
 ipcRenderer.on('update-active-timers', (event, args) => {
-    console.log('updated');
-    activeTimers = args;
-    renderActiveTimers(activeTimers);
+    // console.log('updated');
+    const allTimers = sortTimers(args);
+    renderActiveTimers(allTimers.activeTimers);
+    renderSavedTimers(allTimers.savedTimers);
 });
 
 
 
 //Get savedTimers data from main process
 
+//////////////////////////////////
+//FUNCTIONS
+//////////////////////////////////
+const sortTimers = (timersArray) => {
+
+    let savedTimers = [];
+    let activeTimers = [];
+
+    timersArray.forEach((timer) => {
+        if(timer.isSaved) {
+            savedTimers.push(timer);
+        } else {
+            activeTimers.push(timer);
+        }
+    });
+
+    return {
+        activeTimers: activeTimers,
+        savedTimers: savedTimers
+    }
+}
 
 //////////////////////////////////
 //EVENT LISTENERS
@@ -54,26 +76,27 @@ DOMElements.addButton.addEventListener('click', () => {
         return;
     }
 
+    DOMElements.inputContainer.classList.remove('input--error');
+
     // const addedDice = new Dice(uuid, +dice.dataset.faces, 0);  // Create new dice object
     const newActiveTimer = new ActiveTimer(
         DOMElements.inputTimer.value,
         Date.now(),
         0,
         false,
+        false,
         false
-    )
-
-    console.log(newActiveTimer);
+    );
 
     ipcRenderer.send('add-new-timer', newActiveTimer);
-
-    console.log('addTimer');
+    DOMElements.inputTimer.value = ''; //clear form
 });
 
 DOMElements.inputTimer.addEventListener('input', (e) => {
-    console.log(e.target.value);
-
-})
+    if(DOMElements.inputTimer.value) {
+        DOMElements.inputContainer.classList.remove('input--error');
+    }
+});
 
 //general event listeners
 document.addEventListener('click', (e) => {
@@ -90,7 +113,13 @@ document.addEventListener('click', (e) => {
 
     //listen to save button events
     if(e.target.id === 'save-button') {
-        console.log('save active timer');
+
+        //change isSaved to be true
+        let activeTimerId = e.target.closest('.timer').id; //get elements id
+        // send to Main process
+        ipcRenderer.send('save-active-timer', activeTimerId); //pass onto main process to remove from DB
+
+        // console.log('save active timer');
     }
 
     //listen to delete button events
@@ -103,6 +132,11 @@ document.addEventListener('click', (e) => {
     ////////////////////////////
     //SAVED TIMER EVENTS
     ////////////////////////////
+    //listen to delete button events
+    if(e.target.id === 'history-delete-button') {
+        let activeTimerId = e.target.closest('.history-card').id; //get elements id
+        ipcRenderer.send('remove-active-timer', activeTimerId); //pass onto main process to remove from DB
+    };
 
     // listen to delete button events
 });

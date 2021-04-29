@@ -7,7 +7,8 @@ const DOMElements = {
     addButton: document.getElementById('add-button'),
     inputContainer: document.getElementById('input-container'),
     inputTimer: document.getElementById('input-timer-name'),
-    activeTimerContainer: document.getElementById('timer-container')
+    activeTimerContainer: document.getElementById('timer-container'),
+    historyContainer: document.getElementById('history-container')
 };
 
 module.exports = DOMElements;

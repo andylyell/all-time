@@ -6,8 +6,9 @@
 
     &--error {
         position: relative;
-        border: 1px solid $pink-2;
+        // border: 1px solid $pink-2;
         border-radius: $border-radius-1;
+        box-shadow: 0 0 0 1px $pink-2; /* All the borders by using the spread properties */
 
         &::after {
             content: 'Enter a name';

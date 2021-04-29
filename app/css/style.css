@@ -84,8 +84,9 @@ body {
   position: relative; }
   .input--error {
     position: relative;
-    border: 1px solid #FF7D9C;
-    border-radius: 6px; }
+    border-radius: 6px;
+    box-shadow: 0 0 0 1px #FF7D9C;
+    /* All the borders by using the spread properties */ }
     .input--error::after {
       content: 'Enter a name';
       position: absolute;
@@ -199,6 +200,10 @@ body {
 
 body {
   padding: 16px; }
+
+.empty-text {
+  color: #B4B4B4;
+  font-size: 14px; }
 
 .navigation {
   display: flex;

@@ -2,12 +2,13 @@
 // ===============================================================
 
 class ActiveTimer {
-    constructor(name, dateCreated, time, isRunning, isStarted) {
+    constructor(name, dateCreated, time, isRunning, isStarted, isSaved) {
         this.name = name;
         this.dateCreated = dateCreated;
         this.time = time;
         this.isRunning = isRunning;
         this.isStarted = isStarted;
+        this.isSaved = isSaved;
     }
 
     // start timer

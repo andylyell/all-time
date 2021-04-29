@@ -7,23 +7,56 @@ module.exports = {
 
         if(activeTimers.length === 0) {
             DOMElements.activeTimerContainer.innerHTML = `
-            <p>Add a timer to get started</p>
+            <p class="empty-text">Add a timer to get started</p>
             `;
             return;
         }
 
         DOMElements.activeTimerContainer.innerHTML = '';
         activeTimers.forEach((activeTimer) => {
-            console.log(activeTimer);
             DOMElements.activeTimerContainer.insertAdjacentHTML('beforeend', activeTimerTemplate(activeTimer));
         })
     },
 
     //render the saved timers
     renderSavedTimers: (savedTimers) => {
-        console.log(savedTimers);
+
+        if(savedTimers.length === 0) {
+            DOMElements.historyContainer.innerHTML = `
+            <p class="empty-text">No saved timers</p>
+            `;
+            return;
+        }
+
+        DOMElements.historyContainer.innerHTML = '';
+        savedTimers.forEach((savedTimer) => {
+            DOMElements.historyContainer.insertAdjacentHTML('beforeend', savedTimerTemplate(savedTimer));
+        })
+
+    
     }
 };
+
+function savedTimerTemplate(savedTimer) {
+    return `
+        <div class="history-card" id="${savedTimer._id}">
+                <div class="history-card__info">
+                    <p class="history-card__name">${savedTimer.name}</p>
+                    <p class="history-card__date">${savedTimer.dateCreated}</p>
+                </div>
+                <div class="history-card__time-container">
+                    <p class="history-card__time">${savedTimer.time}</p>
+                    <button class="button button__tertiary" id="history-delete-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+                            <path d="M12 12h2v12h-2zM18 12h2v12h-2z" />
+                            <path d="M4 6v2h2v20a2 2 0 002 2h16a2 2 0 002-2V8h2V6zm4 22V8h16v20zM12 2h8v2h-8z" />
+                            <path data-name="&lt;Transparent Rectangle&gt;" fill="none" d="M0 0h32v32H0z" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+    `;
+}
 
 function activeTimerTemplate(activeTimer) {
     return `
