@@ -1,6 +1,5 @@
 ### TODOs
 
-- save functionality for active Timers
 - reset history function
 - stopwatch function
   - play

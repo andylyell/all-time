@@ -47,5 +47,35 @@ module.exports = {
                 resolve('removed timer')
             });
         })
+    },
+
+    //save activeTimer
+    saveActiveTimer: (dbCollection, timerId) => {
+        return new Promise((resolve, reject) => {
+            dbCollection.update({ _id: timerId }, { $set: { isSaved: true }}, {}, function(err, propertyChanged) {
+                if(err) {
+                    reject(err);
+                }
+                resolve('timer saved');
+            })
+        })
+    },
+
+    // delete all saved timers
+    removeAllSavedTimers: (dbCollection) => {
+        return new Promise((resolve, reject) => {
+            dbCollection.remove({ isSaved: true }, {multi: true}, function(err, removeList) {
+                if(err) {
+                    reject(err)
+                }
+                resolve('all saved timers removed');
+            })
+        })
     }
 }
+
+// // Remove multiple documents
+// db.remove({ system: 'solar' }, { multi: true }, function (err, numRemoved) {
+//     // numRemoved = 3
+//     // All planets from the solar system were removed
+//   });

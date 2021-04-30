@@ -8,7 +8,9 @@ const Datastore = require('nedb');
 const {
     createTimer,
     getAllActiveTimers,
-    deleteActiveTimer
+    deleteActiveTimer,
+    saveActiveTimer,
+    removeAllSavedTimers
 } = require('./app/database/timerOperations');
 
 ////////////////////////////
@@ -69,11 +71,16 @@ app.on('activate', function () {
 
 
 ////////////////////////////
+// FUNCTIONS
+////////////////////////////
+
+////////////////////////////
 // INTER PROCESS LISTENERS
 ////////////////////////////
 
 // load all listeners from db and send to renderer
 ipcMain.on('loadAll', (event, args) => {
+
     getAllActiveTimers(db.activeTimers)
             .then((items) => {
             event.reply('databases-loaded', items);
@@ -119,8 +126,50 @@ ipcMain.on('remove-active-timer', (event, activeTimerId) => {
     })
 
     getAllActiveTimers(db.activeTimers)
-            .then((items) => {
-            event.reply('update-active-timers', items);
+        .then((items) => {
+        event.reply('update-active-timers', items);
+        })
+        .catch((err) => {
+            event.reply('update-active-timers', err);
+        })
+});
+
+//Saved an activeTimer
+ipcMain.on('save-active-timer', (event, activeTimerId) => {
+
+    //will need to update the property isSaved from false to true
+    saveActiveTimer(db.activeTimers, activeTimerId)
+    .then((message) => {
+        console.log(message);
+    })
+    .catch((err) => {
+        console.log(err);
+    })
+
+    getAllActiveTimers(db.activeTimers)
+        .then((items) => {
+        event.reply('update-active-timers', items);
+        })
+        .catch((err) => {
+            event.reply('update-active-timers', err);
+        })
+});
+
+//remove all saved times from db
+ipcMain.on('remove-all-saved-timers', (event, savedTimerIds) => {
+
+
+    removeAllSavedTimers(db.activeTimers)
+    .then((message) => {
+        console.log(message);
+    })
+    .catch((err) => {
+        console.log(err);
+    })
+
+    getAllActiveTimers(db.activeTimers)
+        .then((items) => {
+        event.reply('update-active-timers', items);
         })
         .catch((err) => {
             event.reply('update-active-timers', err);

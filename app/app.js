@@ -65,7 +65,16 @@ DOMElements.menuCloseButton.addEventListener('click', () => {
 
 DOMElements.resetHistoryButton.addEventListener('click', () => {
 
-    console.log('reset history button');
+    //get IDs of the saved history items
+    const historyCards = document.querySelectorAll('.history-card'); //get history cards as nodelist
+    const historyCardsArr = Array.from(historyCards); //turn nodeslist into an iterable array
+    const cardIds = historyCardsArr.map((card) => { //map array entries to create new array of history card IDs
+        return card.id
+    });
+
+    ipcRenderer.send('remove-all-saved-timers', cardIds); //pass onto main process to remove from DB
+
+
 });
 
 DOMElements.addButton.addEventListener('click', () => {
@@ -116,7 +125,6 @@ document.addEventListener('click', (e) => {
 
     //listen to save button events
     if(e.target.id === 'save-button') {
-
         //change isSaved to be true
         let activeTimerId = e.target.closest('.timer').id; //get elements id
         // send to Main process
