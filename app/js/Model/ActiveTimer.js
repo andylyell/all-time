@@ -2,13 +2,18 @@
 // ===============================================================
 
 class ActiveTimer {
-    constructor(name, dateCreated, time, isRunning, isStarted, isSaved) {
+    constructor(name, dateCreated, time, isRunning, isStarted, isSaved, _id) {
         this.name = name;
         this.dateCreated = dateCreated;
         this.time = time;
         this.isRunning = isRunning;
         this.isStarted = isStarted;
         this.isSaved = isSaved;
+        this._id = _id
+    }
+
+    whoAmI() {
+        console.log(`ID: ${this._id} - Name: ${this.name}`);
     }
 
     // start timer

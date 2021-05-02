@@ -6,13 +6,16 @@ const { renderActiveTimers, renderSavedTimers } = require('./js/View/renderMetho
 
 let activeTimers;
 let savedTimers;
+let allTimers = [];
 
 //Get data as in memory data
 window.addEventListener('load', () => ipcRenderer.send('loadAll'));
+
 //Get activeTimer data from Main Process
 ipcRenderer.on('databases-loaded', (event, args) => {
     // activeTimers = args
-    const allTimers = sortTimers(args);
+    allTimers = sortTimers(args);
+
     renderActiveTimers(allTimers.activeTimers);
     renderSavedTimers(allTimers.savedTimers);
 });
@@ -20,7 +23,9 @@ ipcRenderer.on('databases-loaded', (event, args) => {
 //update activeTimers
 ipcRenderer.on('update-active-timers', (event, args) => {
     // console.log('updated');
-    const allTimers = sortTimers(args);
+    
+    allTimers = sortTimers(args);
+
     renderActiveTimers(allTimers.activeTimers);
     renderSavedTimers(allTimers.savedTimers);
 });
@@ -41,7 +46,18 @@ const sortTimers = (timersArray) => {
         if(timer.isSaved) {
             savedTimers.push(timer);
         } else {
-            activeTimers.push(timer);
+
+            const newActiveTimer = new ActiveTimer(
+                timer.name,
+                timer.dateCreated,
+                timer.time,
+                timer.isRunning,
+                timer.isStarted,
+                timer.isSaved,
+                timer._id
+            );
+
+            activeTimers.push(newActiveTimer);
         }
     });
 
@@ -87,14 +103,14 @@ DOMElements.addButton.addEventListener('click', () => {
 
     DOMElements.inputContainer.classList.remove('input--error');
 
-    // const addedDice = new Dice(uuid, +dice.dataset.faces, 0);  // Create new dice object
     const newActiveTimer = new ActiveTimer(
         DOMElements.inputTimer.value,
         Date.now(),
         0,
         false,
         false,
-        false
+        false,
+
     );
 
     ipcRenderer.send('add-new-timer', newActiveTimer);
@@ -117,6 +133,13 @@ document.addEventListener('click', (e) => {
     //listen to play button events
     if(e.target.id === 'play-button') {
         console.log('play');
+
+        const currentTimer = allTimers.activeTimers.find((activeTimer) => {
+            return activeTimer._id = e.target.closest('.timer').id;
+        }); 
+
+        currentTimer.whoAmI();
+
     }
 
     //listen to pause button events

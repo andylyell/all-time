@@ -1,10 +1,9 @@
 ### TODOs
 
-- reset history function
 - stopwatch function
   - play
   - pause
-- reset final
+  - reset stopwatch
 - search history timers function
 - Quit functions if timers are still running
 - Hover states on buttons

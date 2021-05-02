@@ -93,7 +93,7 @@ ipcMain.on('loadAll', (event, args) => {
 // add a new timer
 ipcMain.on('add-new-timer', (event, newActiveTimer) => {
     // console.log(newActiveTimer);
-    console.log(db.activeTimers.indexes);
+    // console.log(db.activeTimers.indexes);
 
     createTimer(db.activeTimers, newActiveTimer)
         .then((message) => {
