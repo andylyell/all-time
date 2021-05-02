@@ -2,10 +2,8 @@ const electron = require('electron');
 const { ipcRenderer } = electron;
 const DOMElements = require('./js/DOMElements');
 const ActiveTimer = require('./js/Model/ActiveTimer');
-const { renderActiveTimers, renderSavedTimers } = require('./js/View/renderMethods');
+const { renderActiveTimers, renderSavedTimers, renderPlayButton, renderPauseButton } = require('./js/View/renderMethods');
 
-let activeTimers;
-let savedTimers;
 let allTimers = [];
 
 //Get data as in memory data
@@ -51,6 +49,8 @@ const sortTimers = (timersArray) => {
                 timer.name,
                 timer.dateCreated,
                 timer.time,
+                timer.startTime,
+                timer.elapsedTime, 
                 timer.isRunning,
                 timer.isStarted,
                 timer.isSaved,
@@ -65,6 +65,13 @@ const sortTimers = (timersArray) => {
         activeTimers: activeTimers,
         savedTimers: savedTimers
     }
+}
+
+const getCurrentTimer = (cardId) => {
+    //select activeTimer object from data array
+    return allTimers.activeTimers.find((activeTimer) => { 
+            return activeTimer._id = cardId;
+    });
 }
 
 //////////////////////////////////
@@ -107,10 +114,11 @@ DOMElements.addButton.addEventListener('click', () => {
         DOMElements.inputTimer.value,
         Date.now(),
         0,
+        0,
+        0,
         false,
         false,
         false,
-
     );
 
     ipcRenderer.send('add-new-timer', newActiveTimer);
@@ -132,17 +140,27 @@ document.addEventListener('click', (e) => {
 
     //listen to play button events
     if(e.target.id === 'play-button') {
-        console.log('play');
 
-        const currentTimer = allTimers.activeTimers.find((activeTimer) => {
-            return activeTimer._id = e.target.closest('.timer').id;
-        }); 
+        const timerCard = e.target.closest('.timer'); //get timerCard that houses play button
+        const currentTimer = getCurrentTimer(timerCard.id); //call function to get the current Timer Object
 
-        currentTimer.whoAmI();
+        currentTimer.startTimer(); //start timer within the right activeTimer object
+
+        e.target.remove(); //remove play button
+
+        timerCard.querySelector('.timer__control-time').insertAdjacentHTML('afterbegin', renderPauseButton()); //replace play button with pause button
+        timerCard.classList.add('active');
+        timerCard.querySelector('.timer__control-timer').classList.remove('show');
 
     }
 
     //listen to pause button events
+    if(e.target.id === 'pause-button') {
+        const timerCard = e.target.closest('.timer'); //get timerCard that houses play button
+        const currentTimer = getCurrentTimer(timerCard.id); //call function to get the current Timer Object
+
+        currentTimer.pauseTimer();
+    }
 
     //listn to reset button events
 

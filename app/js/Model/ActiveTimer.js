@@ -1,30 +1,43 @@
 // Active Timer class
 // ===============================================================
 
+const { TouchBarScrubber } = require("electron");
+
 class ActiveTimer {
-    constructor(name, dateCreated, time, isRunning, isStarted, isSaved, _id) {
+    constructor(name, dateCreated, time, startTime, elapsedTime, isRunning, isStarted, isSaved, _id) {
         this.name = name;
         this.dateCreated = dateCreated;
         this.time = time;
+        this.startTime = startTime;
+        this.elapsedTime = elapsedTime;
         this.isRunning = isRunning;
         this.isStarted = isStarted;
         this.isSaved = isSaved;
         this._id = _id
     }
 
-    whoAmI() {
-        console.log(`ID: ${this._id} - Name: ${this.name}`);
+    // start timer
+    startTimer() {
+        this.startTime = Date.now() - this.elapsedTime;
+        this.time = setInterval(() => {
+            this.elapsedTime = Date.now() - this.startTime;
+            console.log(this.elapsedTime);
+        }, 10);
     }
 
-    // start timer
-    // stop timer
-    // reset timer
-    // save timer
+    // pause timer
+    pauseTimer() {
+        clearInterval(this.time);
+        console.log('timer paused');
+    }
 
-     // returns a random integer from 1 to number of faces
-    // rollDice() {
-    //     this.activeRoll = Math.floor(Math.random() * this.faces) + 1;
-    // }
+    // reset timer
+    resetTimer() {
+        clearInterval(this.time);
+        this.elapsedTime = 0;
+        console.log('timer reset');
+    }
+
 };
 
 module.exports = ActiveTimer;

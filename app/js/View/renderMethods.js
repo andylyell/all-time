@@ -33,7 +33,31 @@ module.exports = {
             DOMElements.historyContainer.insertAdjacentHTML('beforeend', savedTimerTemplate(savedTimer));
         })
 
-    
+    },
+
+    renderPauseButton: () => {
+        return `
+            <button class="button button__tertiary" id="pause-button">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+                    <path
+                        d="M12 6h-2a2 2 0 00-2 2v16a2 2 0 002 2h2a2 2 0 002-2V8a2 2 0 00-2-2zM22 6h-2a2 2 0 00-2 2v16a2 2 0 002 2h2a2 2 0 002-2V8a2 2 0 00-2-2z" />
+                    <path data-name="&lt;Transparent Rectangle&gt;" fill="none" d="M0 0h32v32H0z" />
+                </svg>
+            </button>
+        `;
+    },
+
+    renderPlayButton: () => {
+        return `
+            <button class="button button__tertiary" id="play-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+                        <path
+                            d="M16 2a14 14 0 1014 14A14 14 0 0016 2zm7.48 14.88l-11 6a1 1 0 01-1 0A1 1 0 0111 22V10a1 1 0 01.49-.86 1 1 0 011 0l11 6a1 1 0 010 1.76z" />
+                        <path d="M13 20.32L20.91 16 13 11.69v8.63z" />
+                        <path data-name="&lt;Transparent Rectangle&gt;" fill="none" d="M0 0h32v32H0z" />
+                    </svg>
+            </button>
+        `
     }
 };
 
@@ -74,13 +98,6 @@ function activeTimerTemplate(activeTimer) {
                             <path data-name="&lt;Transparent Rectangle&gt;" fill="none" d="M0 0h32v32H0z" />
                         </svg>
                     </button>
-                    <!-- <button class="button button__tertiary" id="pause-button">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-                            <path
-                                d="M12 6h-2a2 2 0 00-2 2v16a2 2 0 002 2h2a2 2 0 002-2V8a2 2 0 00-2-2zM22 6h-2a2 2 0 00-2 2v16a2 2 0 002 2h2a2 2 0 002-2V8a2 2 0 00-2-2z" />
-                            <path data-name="&lt;Transparent Rectangle&gt;" fill="none" d="M0 0h32v32H0z" />
-                        </svg>
-                    </button> -->
                     <button class="button button__tertiary button__tertiary--disabled" id="reset-button">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
                             <path
@@ -107,5 +124,5 @@ function activeTimerTemplate(activeTimer) {
                 </div>
             </div>
         </div>
-    `
+    `;
 }
