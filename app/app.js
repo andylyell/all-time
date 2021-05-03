@@ -13,7 +13,7 @@ window.addEventListener('load', () => ipcRenderer.send('loadAll'));
 ipcRenderer.on('databases-loaded', (event, args) => {
     // activeTimers = args
     allTimers = sortTimers(args);
-
+    console.log(allTimers);
     renderActiveTimers(allTimers.activeTimers);
     renderSavedTimers(allTimers.savedTimers);
 });
@@ -23,7 +23,7 @@ ipcRenderer.on('update-active-timers', (event, args) => {
     // console.log('updated');
     
     allTimers = sortTimers(args);
-
+    console.log(allTimers);
     renderActiveTimers(allTimers.activeTimers);
     renderSavedTimers(allTimers.savedTimers);
 });
@@ -69,9 +69,24 @@ const sortTimers = (timersArray) => {
 
 const getCurrentTimer = (cardId) => {
     //select activeTimer object from data array
-    return allTimers.activeTimers.find((activeTimer) => { 
-            return activeTimer._id = cardId;
+
+    let timerObject
+
+    allTimers.activeTimers.forEach((timer) => {
+        // console.log(timer);
+        if(timer._id === cardId) {
+            timerObject = timer;
+            return;
+        }
     });
+
+    // const timerObject = allTimers.activeTimers.reduce((timer) => {
+    //     console.log(timer);
+    //     if(timer._id === cardId){
+    //         return timer;
+    //     }
+    // });
+    return timerObject;
 }
 
 //////////////////////////////////
@@ -140,29 +155,44 @@ document.addEventListener('click', (e) => {
 
     //listen to play button events
     if(e.target.id === 'play-button') {
-
+        
         const timerCard = e.target.closest('.timer'); //get timerCard that houses play button
         const currentTimer = getCurrentTimer(timerCard.id); //call function to get the current Timer Object
-
-        currentTimer.startTimer(); //start timer within the right activeTimer object
+        currentTimer.startTimer(timerCard); //start timer within the right activeTimer object
 
         e.target.remove(); //remove play button
-
         timerCard.querySelector('.timer__control-time').insertAdjacentHTML('afterbegin', renderPauseButton()); //replace play button with pause button
         timerCard.classList.add('active');
         timerCard.querySelector('.timer__control-timer').classList.remove('show');
+        timerCard.querySelector('#reset-button').disabled = false;
+        timerCard.querySelector('#reset-button').classList.remove('button__tertiary--disabled');
+        timerCard.querySelector('#save-button').disabled = false;
+        timerCard.querySelector('#save-button').classList.remove('button__tertiary--disabled');
 
     }
 
     //listen to pause button events
     if(e.target.id === 'pause-button') {
+
         const timerCard = e.target.closest('.timer'); //get timerCard that houses play button
         const currentTimer = getCurrentTimer(timerCard.id); //call function to get the current Timer Object
-
         currentTimer.pauseTimer();
+
+        //update timer in DB
+        ipcRenderer.send('update-active-timer', currentTimer);
+
+        e.target.remove(); //remove pause button
+        timerCard.querySelector('.timer__control-time').insertAdjacentHTML('afterbegin', renderPlayButton()); //replace play button with pause button
+        timerCard.classList.remove('active');
+        timerCard.querySelector('.timer__control-timer').classList.add('show');
     }
 
     //listn to reset button events
+    if(e.target.id === 'reset-button') {
+        const timerCard = e.target.closest('.timer'); //get timerCard that houses play button
+        const currentTimer = getCurrentTimer(timerCard.id); //call function to get the current Timer Object
+        currentTimer.resetTimer();
+    }
 
     //listen to save button events
     if(e.target.id === 'save-button') {

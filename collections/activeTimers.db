@@ -1,3 +1,6 @@
-{"name":"da","dateCreated":1619941540287,"time":0,"isRunning":false,"isStarted":false,"isSaved":true,"_id":"ydSpRNhJpl1DK6XM"}
-{"name":"Timer","dateCreated":1619945030945,"time":0,"startTime":0,"elapsedTime":0,"isRunning":false,"isStarted":false,"isSaved":false,"_id":"zZvJKAEzjAPjpeVC"}
-{"name":"ANother Timer","dateCreated":1619946793475,"time":0,"startTime":0,"elapsedTime":0,"isRunning":false,"isStarted":false,"isSaved":false,"_id":"6mL8YqNoqBGOOy5V"}
+{"name":"test","dateCreated":1620060404455,"time":0,"startTime":0,"elapsedTime":0,"isRunning":false,"isStarted":false,"isSaved":false,"_id":"da625mkUgcRTp3RY"}
+{"name":"test","dateCreated":1620060404455,"time":0,"startTime":0,"elapsedTime":2000,"isRunning":false,"isStarted":false,"isSaved":false,"_id":"da625mkUgcRTp3RY"}
+{"name":"test","dateCreated":1620060404455,"time":0,"startTime":0,"elapsedTime":10003,"isRunning":false,"isStarted":false,"isSaved":false,"_id":"da625mkUgcRTp3RY"}
+{"name":"Ral","dateCreated":1620061282190,"time":0,"startTime":0,"elapsedTime":0,"isRunning":false,"isStarted":false,"isSaved":false,"_id":"RoNv09dHeOlD8pIe"}
+{"$$deleted":true,"_id":"RoNv09dHeOlD8pIe"}
+{"$$deleted":true,"_id":"da625mkUgcRTp3RY"}

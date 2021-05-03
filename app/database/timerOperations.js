@@ -33,8 +33,18 @@ module.exports = {
     
     
     //update activeTimer
-    updateTimer: (database, data) => {
-        console.log('update');
+    updateTimer: (dbCollection, activeTimer) => {
+        return new Promise((resolve, reject) => {
+            dbCollection.update({ _id: activeTimer._id }, { $set: { elapsedTime: activeTimer.elapsedTime }}, {}, function(err, propertyChanged) {
+                if(err) {
+                    reject(err);
+                }
+                resolve('timer saved');
+            })
+        })
+
+
+
     },
 
     //delete activeTimer

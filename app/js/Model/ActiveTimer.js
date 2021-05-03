@@ -1,8 +1,7 @@
+const { renderTimer } = require('../View/renderMethods');
+
 // Active Timer class
 // ===============================================================
-
-const { TouchBarScrubber } = require("electron");
-
 class ActiveTimer {
     constructor(name, dateCreated, time, startTime, elapsedTime, isRunning, isStarted, isSaved, _id) {
         this.name = name;
@@ -17,12 +16,12 @@ class ActiveTimer {
     }
 
     // start timer
-    startTimer() {
+    startTimer(elementToUpdate) {
         this.startTime = Date.now() - this.elapsedTime;
         this.time = setInterval(() => {
-            this.elapsedTime = Date.now() - this.startTime;
-            console.log(this.elapsedTime);
-        }, 10);
+                this.elapsedTime = Date.now() - this.startTime;
+                renderTimer(this.elapsedTime, elementToUpdate);
+            }, 1000);
     }
 
     // pause timer
