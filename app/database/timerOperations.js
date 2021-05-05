@@ -2,13 +2,12 @@ module.exports = {
 
     //create activeTimer
     createTimer: (dbCollection, newActiveTimer) => {
-
         return new Promise((resolve, reject) => {
-            dbCollection.insert(newActiveTimer, err => {
+            dbCollection.insert(newActiveTimer, (err, newTimer) => {
                 if(err){
                     throw new Error(err)
                 } 
-                resolve('added new active timer');
+                resolve(newTimer);
             });
         })
     },

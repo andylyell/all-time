@@ -93,26 +93,15 @@ ipcMain.on('loadAll', (event, args) => {
 
 // add a new timer
 ipcMain.on('add-new-timer', (event, newActiveTimer) => {
-    // console.log(newActiveTimer);
-    // console.log(db.activeTimers.indexes);
-
     createTimer(db.activeTimers, newActiveTimer)
-        .then((message) => {
-            console.log(message);
+        .then((newTimer) => {
+            console.log(newTimer);
+            event.reply('update-new-timer', newTimer);
         })
         .catch((err) => {
             console.log(err);
             // event.reply('databases-loaded', err);
         });
-
-    getAllActiveTimers(db.activeTimers)
-    .then((items) => {
-        event.reply('update-active-timers', items);
-    })
-    .catch((err) => {
-        event.reply('update-active-timers', err);
-    })
-
 });
 
 // remove active timer from db
@@ -126,13 +115,13 @@ ipcMain.on('remove-active-timer', (event, activeTimerId) => {
         console.log(err);
     })
 
-    getAllActiveTimers(db.activeTimers)
-        .then((items) => {
-        event.reply('update-active-timers', items);
-        })
-        .catch((err) => {
-            event.reply('update-active-timers', err);
-        })
+    // getAllActiveTimers(db.activeTimers)
+    //     .then((items) => {
+    //         event.reply('update-saved-timers', items);
+    //     })
+    //     .catch((err) => {
+    //         event.reply('update-saved-timers', err);
+    //     })
 });
 
 //Saved an activeTimer
@@ -149,10 +138,10 @@ ipcMain.on('save-active-timer', (event, activeTimerId) => {
 
     getAllActiveTimers(db.activeTimers)
         .then((items) => {
-        event.reply('update-active-timers', items);
+        event.reply('update-saved-timers', items);
         })
         .catch((err) => {
-            event.reply('update-active-timers', err);
+            event.reply('update-saved-timers', err);
         })
 });
 
@@ -170,10 +159,10 @@ ipcMain.on('remove-all-saved-timers', (event, savedTimerIds) => {
 
     getAllActiveTimers(db.activeTimers)
         .then((items) => {
-        event.reply('update-active-timers', items);
+        event.reply('update-saved-timers', items);
         })
         .catch((err) => {
-            event.reply('update-active-timers', err);
+            event.reply('update-saved-timers', err);
         })
 });
 

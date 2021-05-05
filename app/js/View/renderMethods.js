@@ -1,29 +1,29 @@
 const DOMElements = require('../DOMElements');
 
 module.exports = {
-
     //render the active timers
     renderActiveTimers: (activeTimers) => {
-
         if(activeTimers.length === 0) {
             DOMElements.activeTimerContainer.innerHTML = `
-            <p class="empty-text">Add a timer to get started</p>
+            <p class="empty-text empty-text--active">Add a timer to get started</p>
             `;
             return;
         }
-
         DOMElements.activeTimerContainer.innerHTML = '';
         activeTimers.forEach((activeTimer) => {
-            DOMElements.activeTimerContainer.insertAdjacentHTML('beforeend', activeTimerTemplate(activeTimer));
+            DOMElements.activeTimerContainer.insertAdjacentHTML('afterbegin', activeTimerTemplate(activeTimer));
         })
+    },
+
+    renderSingleActiveTimer: (newActiveTimer) => {
+        DOMElements.activeTimerContainer.insertAdjacentHTML('afterbegin', activeTimerTemplate(newActiveTimer));
     },
 
     //render the saved timers
     renderSavedTimers: (savedTimers) => {
-
         if(savedTimers.length === 0) {
             DOMElements.historyContainer.innerHTML = `
-            <p class="empty-text">No saved timers</p>
+            <p class="empty-text empty-text--saved">No saved timers</p>
             `;
             return;
         }
