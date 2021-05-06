@@ -11,7 +11,8 @@ const {
     deleteActiveTimer,
     saveActiveTimer,
     removeAllSavedTimers,
-    updateTimer
+    updateTimer,
+    resetActiveTimer
 } = require('./app/database/timerOperations');
 
 ////////////////////////////
@@ -180,4 +181,17 @@ ipcMain.on('update-active-timer', (event, activeTimer) => {
         })
 
 });
+
+//reset active timer 
+ipcMain.on('reset-active-timer', (event, activeTimer) => {
+
+    resetActiveTimer(db.activeTimers, activeTimer)
+    .then((message) => {
+        console.log(message);
+    })
+    .catch((err) => {
+        console.log(err);
+    })
+
+})
 

@@ -2,7 +2,7 @@ const electron = require('electron');
 const { ipcRenderer } = electron;
 const DOMElements = require('./js/DOMElements');
 const ActiveTimer = require('./js/Model/ActiveTimer');
-const { renderActiveTimers, renderSingleActiveTimer, renderSavedTimers, renderPlayButton, renderPauseButton } = require('./js/View/renderMethods');
+const { renderActiveTimers, renderSingleActiveTimer, renderSavedTimers, renderPlay, renderPause, renderReset } = require('./js/View/renderMethods');
 
 let allTimers = [];
 
@@ -100,9 +100,7 @@ const sortTimers = (timersArray) => {
 
 const getCurrentTimer = (cardId) => {
     //select activeTimer object from data array
-
     let timerObject
-
     allTimers.activeTimers.forEach((timer) => {
         // console.log(timer);
         if(timer._id === cardId) {
@@ -170,20 +168,10 @@ document.addEventListener('click', (e) => {
 
     //listen to play button events
     if(e.target.id === 'play-button') {
-        
         const timerCard = e.target.closest('.timer'); //get timerCard that houses play button
         const currentTimer = getCurrentTimer(timerCard.id); //call function to get the current Timer Object
         currentTimer.startTimer(timerCard); //start timer within the right activeTimer object
-
-        e.target.remove(); //remove play button
-        timerCard.querySelector('.timer__control-time').insertAdjacentHTML('afterbegin', renderPauseButton()); //replace play button with pause button
-        timerCard.classList.add('active');
-        timerCard.querySelector('.timer__control-timer').classList.remove('show');
-        timerCard.querySelector('#reset-button').disabled = false;
-        timerCard.querySelector('#reset-button').classList.remove('button__tertiary--disabled');
-        timerCard.querySelector('#save-button').disabled = false;
-        timerCard.querySelector('#save-button').classList.remove('button__tertiary--disabled');
-
+        renderPlay(e.target, timerCard); //render DOM
     }
 
     //listen to pause button events
@@ -191,35 +179,37 @@ document.addEventListener('click', (e) => {
 
         const timerCard = e.target.closest('.timer'); //get timerCard that houses play button
         const currentTimer = getCurrentTimer(timerCard.id); //call function to get the current Timer Object
-        currentTimer.pauseTimer();
-
-        //update timer in DB
-        ipcRenderer.send('update-active-timer', currentTimer);
-
-        e.target.remove(); //remove pause button
-        timerCard.querySelector('.timer__control-time').insertAdjacentHTML('afterbegin', renderPlayButton()); //replace play button with pause button
-        timerCard.classList.remove('active');
-        timerCard.querySelector('.timer__control-timer').classList.add('show');
+        currentTimer.pauseTimer(); //pause time within the right activeTimer Object
+        ipcRenderer.send('update-active-timer', currentTimer); //update timer in DB
+        renderPause(e.target, timerCard); //render DOM
     }
 
     //listn to reset button events
     if(e.target.id === 'reset-button') {
+
         const timerCard = e.target.closest('.timer'); //get timerCard that houses play button
         const currentTimer = getCurrentTimer(timerCard.id); //call function to get the current Timer Object
         currentTimer.resetTimer();
+        console.log(currentTimer);
+        ipcRenderer.send('reset-active-timer', currentTimer); //update DB with elapse time set to 0 and startTime set to 0
+        renderReset(timerCard, currentTimer);
+
+        // set Timer card back to 00:00:00
+        // open up controls
+        // disabled reset and save buttons
     }
 
     //listen to save button events
     if(e.target.id === 'save-button') {
         //change isSaved to be true
-        let activeTimerId = e.target.closest('.timer').id; //get elements id
+        const activeTimerId = e.target.closest('.timer').id; //get elements id
         ipcRenderer.send('save-active-timer', activeTimerId); //pass onto main process to remove from DB
         e.target.closest('.timer').remove(); //remove from UI
     }
 
     //listen to delete button events
     if(e.target.id === 'delete-button') {
-        let activeTimerId = e.target.closest('.timer').id; //get elements id
+        const activeTimerId = e.target.closest('.timer').id; //get elements id
         ipcRenderer.send('remove-active-timer', activeTimerId); //pass onto main process to remove from DB
         e.target.closest('.timer').remove(); //remove from UI
     };

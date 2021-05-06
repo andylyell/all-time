@@ -34,9 +34,9 @@ class ActiveTimer {
     resetTimer() {
         clearInterval(this.time);
         this.elapsedTime = 0;
+        this.startTime = 0;
         console.log('timer reset');
     }
-
 };
 
 module.exports = ActiveTimer;

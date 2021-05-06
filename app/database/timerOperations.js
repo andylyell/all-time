@@ -80,6 +80,17 @@ module.exports = {
                 resolve('all saved timers removed');
             })
         })
+    },
+
+    resetActiveTimer: (dbCollection, timerId) => {
+        return new Promise((resolve, reject) => {
+            dbCollection.update({ _id: timerId }, {$set: { elapsedTime: 0, startTime: 0}}, {}, (err, propertiesChanged) => {
+                if(err) {
+                    reject(err);
+                }
+                resolve('timer reset');
+            })
+        })
     }
 }
 
