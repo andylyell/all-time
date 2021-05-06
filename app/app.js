@@ -31,6 +31,10 @@ ipcRenderer.on('databases-loaded', (event, args) => {
 //     renderSavedTimers(allTimers.savedTimers);
 // });
 
+//////////////////////////////////
+// INTER PROCESS LISTENERS
+//////////////////////////////////
+
 //update activeTimers
 ipcRenderer.on('update-saved-timers', (event, args) => {
     // console.log('updated'); 
@@ -57,11 +61,7 @@ ipcRenderer.on('update-new-timer', (event, args) => {
     if(document.querySelector('.empty-text--active')) {
         document.querySelector('.empty-text--active').remove();
     }
-})
-
-
-
-//Get savedTimers data from main process
+});
 
 //////////////////////////////////
 //FUNCTIONS

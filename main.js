@@ -166,6 +166,7 @@ ipcMain.on('remove-all-saved-timers', (event, savedTimerIds) => {
         })
 });
 
+
 //update active timer
 
 ipcMain.on('update-active-timer', (event, activeTimer) => {

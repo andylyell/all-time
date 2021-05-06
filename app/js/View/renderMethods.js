@@ -87,10 +87,10 @@ function savedTimerTemplate(savedTimer) {
         <div class="history-card" id="${savedTimer._id}">
                 <div class="history-card__info">
                     <p class="history-card__name">${savedTimer.name}</p>
-                    <p class="history-card__date">${savedTimer.dateCreated}</p>
+                    <p class="history-card__date">${renderDate(savedTimer.dateCreated)}</p>
                 </div>
                 <div class="history-card__time-container">
-                    <p class="history-card__time">${savedTimer.time}</p>
+                    <p class="history-card__time">${renderActiveTime(savedTimer.elapsedTime)}</p>
                     <button class="button button__tertiary" id="history-delete-button">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
                             <path d="M12 12h2v12h-2zM18 12h2v12h-2z" />
@@ -104,11 +104,12 @@ function savedTimerTemplate(savedTimer) {
 }
 
 function activeTimerTemplate(activeTimer) {
+
     return `
         <div class="timer" id="${activeTimer._id}">
             <h2>${activeTimer.name}</h2>
-            <p class="timer__date">Created 2021-04-15</p>
-            <p class="timer__time">00:00<span>:00</span></p>
+            <p class="timer__date">Created ${renderDate(activeTimer.dateCreated)}</p>
+            <p class="timer__time">${renderActiveTime(activeTimer.elapsedTime)}</p>
             <div class="timer__controls">
                 <div class="timer__control-time">
                     <button class="button button__tertiary" id="play-button">
@@ -147,3 +148,35 @@ function activeTimerTemplate(activeTimer) {
         </div>
     `;
 }
+
+function renderActiveTime(time) {
+        let diffInHrs = time / 3600000; 
+        let hh = Math.floor(diffInHrs);
+        let diffInMin = (diffInHrs - hh) * 60;
+        let mm = Math.floor(diffInMin);
+        let diffInSec = (diffInMin - mm) * 60;
+        let ss = Math.floor(diffInSec);    
+        let formattedHH = hh.toString().padStart(2, "0");
+        let formattedMM = mm.toString().padStart(2, "0");
+        let formattedSS = ss.toString().padStart(2, "0");
+        return `${formattedHH}:${formattedMM}<span>:${formattedSS}</span>`;
+};
+
+function renderDate(dateInMilliseconds) {
+
+    const dateCreated = new Date(dateInMilliseconds);
+
+    const sanitiseDate = (timePeriod) => {
+        if(timePeriod > 0 && timePeriod <= 8) {
+            return `0${timePeriod+1}`
+        } 
+        else if (timePeriod === 9) {
+            return `10`;
+        }
+        else {
+            return timePeriod+1;
+        }
+    }
+
+    return `${dateCreated.getFullYear()}-${sanitiseDate(dateCreated.getMonth())}-${sanitiseDate(dateCreated.getDay())}`;
+};
