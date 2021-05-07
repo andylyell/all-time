@@ -19,10 +19,6 @@ module.exports = {
         DOMElements.activeTimerContainer.insertAdjacentHTML('afterbegin', activeTimerTemplate(newActiveTimer));
     },
 
-    // renderSingleActiveTimerElapsedTime: (timerCard, activeTimer) => {
-    //     timerCard.querySelector('.timer__time').innerHTML = renderActiveTime(activeTimer.elapsedTime);
-    // },
-
     //render the saved timers
     renderSavedTimers: (savedTimers) => {
         if(savedTimers.length === 0) {
