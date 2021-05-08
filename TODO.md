@@ -1,11 +1,9 @@
 ### TODOs
 
-- bug with the day rendering of the active timer cards and the history timer cards
-- sort timers by date created (newest first)
-- truncation of long string names on the timer cards
-- message to say if a timer has been saved
+- When loading in for the first time the saved and reset buttons on active timers that have timers are disabled
 - When having no active timers the 'Add a timer to get started message should appear'
-- delete history timer from the DOM
+- message to say if a timer has been saved
+- truncation of long string names on the timer cards
 - search history timers function
 - Accessibility with the tabbing order (tabs to menu when off screen)
 - Quit functions if timers are still running

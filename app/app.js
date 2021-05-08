@@ -10,6 +10,56 @@ let allTimers = [];
 window.addEventListener('load', () => ipcRenderer.send('loadAll'));
 
 //////////////////////////////////
+//FUNCTIONS
+//////////////////////////////////
+const sortTimers = (timersArray) => {
+
+    let savedTimers = [];
+    let activeTimers = [];
+
+    timersArray.forEach((timer) => {
+        if(timer.isSaved) {
+            savedTimers.push(timer);
+        } else {
+
+            const newActiveTimer = new ActiveTimer(
+                timer.name,
+                timer.dateCreated,
+                timer.time,
+                timer.startTime,
+                timer.elapsedTime, 
+                timer.isRunning,
+                timer.isStarted,
+                timer.isSaved,
+                timer._id
+            );
+
+            activeTimers.push(newActiveTimer);
+        }
+    });
+
+    return {
+        activeTimers: activeTimers.sort((a, b) => { return a.dateCreated - b.dateCreated}),
+        savedTimers: savedTimers.sort((a, b) => { return b.dateCreated - a.dateCreated}) 
+    }
+}
+
+// const sortedActivities = activities.sort((a, b) => b.date - a.date)
+
+const getCurrentTimer = (cardId) => {
+    //select activeTimer object from data array
+    let timerObject
+    allTimers.activeTimers.forEach((timer) => {
+        // console.log(timer);
+        if(timer._id === cardId) {
+            timerObject = timer;
+            return;
+        }
+    });
+    return timerObject;
+}
+
+//////////////////////////////////
 // INITIAL LOAD FUNCTIONS
 //////////////////////////////////
 
@@ -21,15 +71,6 @@ ipcRenderer.on('databases-loaded', (event, args) => {
     renderActiveTimers(allTimers.activeTimers);
     renderSavedTimers(allTimers.savedTimers);
 });
-
-//update activeTimers
-// ipcRenderer.on('update-active-new-timer', (event, args) => {
-//     // console.log('updated'); 
-//     allTimers = sortTimers(args);
-//     console.log(allTimers);
-//     renderActiveTimers(allTimers.activeTimers);
-//     renderSavedTimers(allTimers.savedTimers);
-// });
 
 //////////////////////////////////
 // INTER PROCESS LISTENERS
@@ -62,54 +103,6 @@ ipcRenderer.on('update-new-timer', (event, args) => {
         document.querySelector('.empty-text--active').remove();
     }
 });
-
-//////////////////////////////////
-//FUNCTIONS
-//////////////////////////////////
-const sortTimers = (timersArray) => {
-
-    let savedTimers = [];
-    let activeTimers = [];
-
-    timersArray.forEach((timer) => {
-        if(timer.isSaved) {
-            savedTimers.push(timer);
-        } else {
-
-            const newActiveTimer = new ActiveTimer(
-                timer.name,
-                timer.dateCreated,
-                timer.time,
-                timer.startTime,
-                timer.elapsedTime, 
-                timer.isRunning,
-                timer.isStarted,
-                timer.isSaved,
-                timer._id
-            );
-
-            activeTimers.push(newActiveTimer);
-        }
-    });
-
-    return {
-        activeTimers: activeTimers,
-        savedTimers: savedTimers
-    }
-}
-
-const getCurrentTimer = (cardId) => {
-    //select activeTimer object from data array
-    let timerObject
-    allTimers.activeTimers.forEach((timer) => {
-        // console.log(timer);
-        if(timer._id === cardId) {
-            timerObject = timer;
-            return;
-        }
-    });
-    return timerObject;
-}
 
 //////////////////////////////////
 //EVENT LISTENERS
@@ -186,18 +179,13 @@ document.addEventListener('click', (e) => {
 
     //listn to reset button events
     if(e.target.id === 'reset-button') {
-
         const timerCard = e.target.closest('.timer'); //get timerCard that houses play button
         const currentTimer = getCurrentTimer(timerCard.id); //call function to get the current Timer Object
         currentTimer.resetTimer();
         console.log(currentTimer);
         ipcRenderer.send('reset-active-timer', currentTimer); //update DB with elapse time set to 0 and startTime set to 0
         renderReset(timerCard, currentTimer);
-
-        // set Timer card back to 00:00:00
-        // open up controls
-        // disabled reset and save buttons
-    }
+    };
 
     //listen to save button events
     if(e.target.id === 'save-button') {
@@ -221,8 +209,7 @@ document.addEventListener('click', (e) => {
     //listen to delete button events
     if(e.target.id === 'history-delete-button') {
         let activeTimerId = e.target.closest('.history-card').id; //get elements id
-        ipcRenderer.send('remove-active-timer', activeTimerId); //pass onto main process to remove from DB
+        ipcRenderer.send('remove-saved-timer', activeTimerId); //pass onto main process to remove from DB
+        // re-render the history cards
     };
-
-    // listen to delete button events
 });

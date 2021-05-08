@@ -125,6 +125,24 @@ ipcMain.on('remove-active-timer', (event, activeTimerId) => {
     //     })
 });
 
+ipcMain.on('remove-saved-timer', (event, activeTimerId) => {
+    deleteActiveTimer(db.activeTimers, activeTimerId)
+    .then((result) => {
+        console.log(result);
+    })
+    .catch((err) => {
+        console.log(err);
+    })
+
+    getAllActiveTimers(db.activeTimers)
+        .then((items) => {
+        event.reply('update-saved-timers', items);
+        })
+        .catch((err) => {
+            event.reply('update-saved-timers', err);
+        })
+})
+
 //Saved an activeTimer
 ipcMain.on('save-active-timer', (event, activeTimerId) => {
 
@@ -148,8 +166,6 @@ ipcMain.on('save-active-timer', (event, activeTimerId) => {
 
 //remove all saved times from db
 ipcMain.on('remove-all-saved-timers', (event, savedTimerIds) => {
-
-
     removeAllSavedTimers(db.activeTimers)
     .then((message) => {
         console.log(message);
@@ -169,7 +185,6 @@ ipcMain.on('remove-all-saved-timers', (event, savedTimerIds) => {
 
 
 //update active timer
-
 ipcMain.on('update-active-timer', (event, activeTimer) => {
 
     updateTimer(db.activeTimers, activeTimer)
