@@ -72,10 +72,10 @@ body {
     font-size: 12px; }
   .history-card__time {
     font-family: "SF Mono", SFMono-Regular, ui-monospace, "DejaVu Sans Mono", Menlo, Consolas, monospace;
-    font-size: 14px;
+    font-size: 24px;
     margin-right: 16px; }
     .history-card__time span {
-      font-size: 20px; }
+      font-size: 14px; }
 
 .input {
   margin-bottom: 32px;

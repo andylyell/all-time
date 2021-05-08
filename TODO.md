@@ -1,6 +1,6 @@
 ### TODOs
 
-- render time correctly on the saved history cards
+- bug with the day rendering of the active timer cards and the history timer cards
 - sort timers by date created (newest first)
 - truncation of long string names on the timer cards
 - message to say if a timer has been saved

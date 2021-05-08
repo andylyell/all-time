@@ -216,5 +216,5 @@ function renderDate(dateInMilliseconds) {
         }
     }
 
-    return `${dateCreated.getFullYear()}-${sanitiseDate(dateCreated.getMonth())}-${sanitiseDate(dateCreated.getDay())}`;
+    return `${dateCreated.getFullYear()}-${sanitiseDate(dateCreated.getMonth())}-${sanitiseDate(dateCreated.getDay()+1)}`;
 };
