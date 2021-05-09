@@ -95,19 +95,65 @@ module.exports = {
 
     },
 
-    renderNotification: (timerName) => {
+    renderNotification: (notificationType, activeTimerId, activeTimerName) => {
+        
+        console.log('fired');
+        console.log(notificationType);
+        console.log(activeTimerId);
+        console.log(activeTimerName);
 
-        let timeOut;
-        if(timeOut) {
-            clearTimeout(timeOut);
+        let notificationTypeStyle = notificationType == 'save' ? `notification--save` : `notification--delete`;
+
+        let notificationMessage
+        if(notificationType == 'save') {
+            notificationMessage = 'Timer saved';
+        } else if (notificationType == 'delete') {
+            notificationMessage = 'Timer deleted';
+        } else {
+            notificationMessage = '';
         }
-        DOMElements.notificationTitle.innerHTML = timerName;
-        DOMElements.notification.classList.add('show');
-        timeOut = setTimeout(() => {
-            DOMElements.notification.classList.remove('show');
-        }, 3000);
-        timeOut();
 
+        // let notificationMessage = notificationType == 'save' ? `Timer saved` : `Timer deleted`;
+
+        // create notification
+        let notificationTemplate = `
+            <div class="notification ${notificationTypeStyle}" id="${activeTimerId+1}">
+                <div class="notification__container">
+                    <div class="notification__information">
+                        <p class="notification__timer-name" id="notification-title">${activeTimerName}</p>
+                        <p class="notification__message">${notificationMessage}</p>
+                    </div>
+                    <button class="button button__tertiary button--notification" id="close-notification-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+                            <path
+                                d="M24 9.4L22.6 8 16 14.6 9.4 8 8 9.4l6.6 6.6L8 22.6 9.4 24l6.6-6.6 6.6 6.6 1.4-1.4-6.6-6.6L24 9.4z" />
+                            <path fill="none" d="M0 0h32v32H0z" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        `
+
+
+        // put it into the DOM
+        DOMElements.notificationWrapper.insertAdjacentHTML('beforeend', notificationTemplate);
+
+        const newNotification = document.getElementById(activeTimerId+1);
+
+        // newNotification.classList.add('show');
+        setTimeout(() => {
+            newNotification.classList.add('show');
+        }, 10);
+
+        // apply show class with setTimeout
+        if(newNotification.classList.contains('show')){
+            setTimeout(() => {
+                newNotification.classList.remove('show');
+            }, 3500);
+        }
+        setTimeout(() => {
+            newNotification.remove();
+        }, 4000);
     },
 
     renderNoActiveTimerLabel: () => {

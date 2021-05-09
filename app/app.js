@@ -122,6 +122,7 @@ DOMElements.resetHistoryButton.addEventListener('click', () => {
     const cardIds = historyCardsArr.map((card) => { //map array entries to create new array of history card IDs
         return card.id
     });
+    renderNotification('all-delete', Math.floor(Math.random() * 100000), 'All timers removed') // show notification
     ipcRenderer.send('remove-all-saved-timers', cardIds); //pass onto main process to remove from DB
 });
 
@@ -152,9 +153,9 @@ DOMElements.inputTimer.addEventListener('input', (e) => {
     }
 });
 
-DOMElements.notificationCloseButton.addEventListener('click', () => {
-    DOMElements.notification.classList.remove('show');
-});
+// DOMElements.notificationCloseButton.addEventListener('click', () => {
+//     DOMElements.notification.classList.remove('show');
+// });
 
 //general event listeners
 document.addEventListener('click', (e) => {
@@ -198,14 +199,16 @@ document.addEventListener('click', (e) => {
         ipcRenderer.send('save-active-timer', activeTimer.id); //pass onto main process to remove from DB
         e.target.closest('.timer').remove(); //remove from UI
         renderNoActiveTimerLabel();
-        renderNotification(activeTimer.querySelector('#active-timer-name').innerHTML)// show notification
+        renderNotification('save', activeTimer.id, activeTimer.querySelector('#active-timer-name').innerHTML)// show notification
     }
 
     //listen to delete button events
     if(e.target.id === 'delete-button') {
-        const activeTimerId = e.target.closest('.timer').id; //get elements id
-        ipcRenderer.send('remove-active-timer', activeTimerId); //pass onto main process to remove from DB
+        const activeTimer = e.target.closest('.timer');
+        // const activeTimerId = e.target.closest('.timer').id; //get elements id
+        ipcRenderer.send('remove-active-timer', activeTimer.id); //pass onto main process to remove from DB
         e.target.closest('.timer').remove(); //remove from UI
+        renderNotification('delete', activeTimer.id, activeTimer.querySelector('#active-timer-name').innerHTML) // show notification
         renderNoActiveTimerLabel();
     };
 
@@ -216,6 +219,17 @@ document.addEventListener('click', (e) => {
     //listen to delete button events
     if(e.target.id === 'history-delete-button') {
         let activeTimerId = e.target.closest('.history-card').id; //get elements id
+        renderNotification('delete', activeTimerId, e.target.closest('.history-card').querySelector('.history-card__name').innerHTML) // show notification
         ipcRenderer.send('remove-saved-timer', activeTimerId); //pass onto main process to remove from DB
     };
+
+    ////////////////////////////
+    // NOTIFICATION EVENTS
+    ////////////////////////////
+    if(e.target.id === 'close-notification-button') {
+        // remove show class
+        const notification = e.target.closest('.notification');
+        notification.classList.remove('show');
+        // set timeout to remove from DOM
+    }
 });

@@ -10,7 +10,7 @@ const DOMElements = {
     activeTimerName: document.getElementById('active-timer-name'),
     activeTimerContainer: document.getElementById('timer-container'),
     historyContainer: document.getElementById('history-container'),
-    notification: document.getElementById('notification'),
+    notificationWrapper: document.getElementById('notification-wrapper'),
     notificationTitle: document.getElementById('notification-title'),
     notificationCloseButton: document.getElementById('close-notification-button')
 };

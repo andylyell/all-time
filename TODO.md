@@ -1,6 +1,10 @@
 ### TODOs
 
 - message to say if a timer has been saved
+        timer is saved
+        show the saved message
+        in 2 seconds dismiss the saved message (steTinou)
+
 - truncation of long string names on the timer cards
 - search history timers function
 - Accessibility with the tabbing order (tabs to menu when off screen)
