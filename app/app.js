@@ -153,9 +153,75 @@ DOMElements.inputTimer.addEventListener('input', (e) => {
     }
 });
 
-// DOMElements.notificationCloseButton.addEventListener('click', () => {
-//     DOMElements.notification.classList.remove('show');
-// });
+DOMElements.searchInput.addEventListener('input', (e) => {
+    //take input value
+    const searchInputValue = e.target.value;
+    // iterate over history cards
+    const historyCards = document.querySelectorAll('.history-card');
+    const historyCardsArray = Array.from(historyCards);
+    // if history card title matches or contains value of input then show
+    historyCardsArray.forEach((historyCard) => {
+        const historyCardTitle = historyCard.querySelector('.history-card__name').innerHTML;
+        if(historyCardTitle.includes(searchInputValue)) {
+            historyCard.classList.remove('hide');
+        } else {
+            historyCard.classList.add('hide');
+        }
+    });
+
+
+    //controller function to evalute criteria
+    function evaluateCritera() {
+        const searchInputValue = utilities.sanitise(searchInput.value); // get sanitised value of search input
+        const tagsArray = selectedTags.map((tag) => { //check which tags have been selected
+            return tag.dataset.tagType;
+        });
+        articlesArray.forEach((article) => { // iterate over each article
+            const contentLinkTag = article.querySelector('.content-link__tag').dataset.tagType; //get article tag
+            const articleTitle = article.querySelector('.content-link__title').innerHTML; // get the article header
+            const sanitisedArticleTitle = utilities.sanitise(articleTitle); // sanitise the header
+            //if there is search input but no tags
+            if(searchInputValue && tagsArray.length === 0) {
+                if(!sanitisedArticleTitle.includes(searchInputValue)) { // check if the article title contains the search input value
+                    article.classList.add('hidden');
+                } else {
+                    article.classList.remove('hidden');
+                }
+            }
+            // if there is search input and tags
+            else if(searchInputValue && tagsArray.length >= 1) {
+                const matchesTag = tagsArray.filter((tag) => { //check if this tag matches any of the tags in the array
+                    if(tag === contentLinkTag) {
+                        return tag;
+                    }
+                });
+                if(sanitisedArticleTitle.includes(searchInputValue) && matchesTag.length >= 1) {
+                    article.classList.remove('hidden');
+                } else {
+                    article.classList.add('hidden');
+                }
+            }
+            // if there is no search input and tags
+            else if(!searchInputValue && tagsArray.length >= 1) {
+                const matchesTag = tagsArray.filter((tag) => { //check if this tag matches any of the tags in the array
+                    if(tag === contentLinkTag) {
+                        return tag;
+                    }
+                });
+                if(matchesTag.length >= 1) {
+                    article.classList.remove('hidden');
+                } else {
+                    article.classList.add('hidden'); // if they do not contain a tag then apply a hidden class to the article
+                }
+            }
+            // if there is no search input and no tags
+            else if(!searchInputValue && tagsArray.length === 0) {
+                    article.classList.remove('hidden');
+            }
+        });
+    }
+
+})
 
 //general event listeners
 document.addEventListener('click', (e) => {

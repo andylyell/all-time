@@ -79,6 +79,8 @@ body {
     margin-right: 16px; }
     .history-card__time span {
       font-size: 14px; }
+  .history-card.hide {
+    display: none; }
 
 .input {
   margin-bottom: 32px;

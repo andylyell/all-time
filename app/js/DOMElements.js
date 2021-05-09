@@ -12,7 +12,8 @@ const DOMElements = {
     historyContainer: document.getElementById('history-container'),
     notificationWrapper: document.getElementById('notification-wrapper'),
     notificationTitle: document.getElementById('notification-title'),
-    notificationCloseButton: document.getElementById('close-notification-button')
+    notificationCloseButton: document.getElementById('close-notification-button'),
+    searchInput: document.getElementById('search-input')
 };
 
 module.exports = DOMElements;
