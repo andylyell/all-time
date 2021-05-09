@@ -111,6 +111,9 @@ body {
     .input input:focus {
       border: 1px solid #B4B4B4;
       outline: none; }
+    .input input.disabled {
+      cursor: not-allowed;
+      opacity: 50%; }
   .input__button {
     position: absolute;
     top: 0;

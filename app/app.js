@@ -159,16 +159,43 @@ DOMElements.searchInput.addEventListener('input', (e) => {
     // iterate over history cards
     const historyCards = document.querySelectorAll('.history-card');
     const historyCardsArray = Array.from(historyCards);
+
     // if history card title matches or contains value of input then show
-    historyCardsArray.forEach((historyCard) => {
+    historyCardsArray.forEach((historyCard, index, originalArray) => {
         const historyCardTitle = historyCard.querySelector('.history-card__name').innerHTML;
         if(historyCardTitle.includes(searchInputValue)) {
             historyCard.classList.remove('hide');
         } else {
             historyCard.classList.add('hide');
+            // const hiddenCardArr = historyCardsArray.map((historyCard) => {
+            //     return historyCard.classList.contains('hide')
+            // });
+            // if(hiddenCardArr.length === originalArray.length) {
+            //     DOMElements.historyContainer.innerHTML = `
+            // <p class="empty-text empty-text--search">No matches found</p>
+            // `;
+            // return;
+            // }
+            // else {
+            //     if(document.querySelector('.empty-text--search')) {
+            //         document.querySelector('.empty-text--search').remove();
+            //     }
+            //     return;
+            // }
         }
     });
 
+    // if(historyCardsArray.length === 0) {
+    //     console.log('no history timers');
+    //     DOMElements.historyContainer.innerHTML = `
+    //         <p class="empty-text empty-text--search">No matches found</p>
+    //         `;
+    // } 
+    // else {
+    //     if(document.querySelector('.empty-text--search')) {
+    //         document.querySelector('.empty-text--search').remove();
+    //     }
+    // }
 
     //controller function to evalute criteria
     function evaluateCritera() {
