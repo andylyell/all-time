@@ -1,5 +1,6 @@
 ### TODOs
 
+- something is wrong with the day logic on the timers
 - search history timers function
 - truncation of long string names on the timer cards
 - Accessibility with the tabbing order (tabs to menu when off screen)

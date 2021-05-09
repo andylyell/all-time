@@ -110,9 +110,9 @@ module.exports = {
 
         let notificationMessage
         if(notificationType == 'save') {
-            notificationMessage = 'Timer saved';
+            notificationMessage = 'Saved';
         } else if (notificationType == 'delete') {
-            notificationMessage = 'Timer deleted';
+            notificationMessage = 'Deleted';
         } else {
             notificationMessage = '';
         }
@@ -308,5 +308,5 @@ function renderDate(dateInMilliseconds) {
         }
     }
 
-    return `${dateCreated.getFullYear()}-${sanitiseDate(dateCreated.getMonth())}-${sanitiseDate(dateCreated.getDay()+1)}`;
+    return `${dateCreated.getFullYear()}-${sanitiseDate(dateCreated.getMonth())}-${sanitiseDate(dateCreated.getDate()-1)}`;
 };
