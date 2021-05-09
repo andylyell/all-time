@@ -59,4 +59,11 @@
         }
     }
 
+    &--notification {
+        & svg {
+            fill: $light-grey-1;
+            pointer-events: none;
+        }
+    }
+
 }

@@ -34,6 +34,7 @@ function createWindow() {
         width: 464,
         minWidth: 464,
         height: 720,
+        resizable: false,
         minHeight: 720,
         webPreferences: {
             nodeIntegration: true,
@@ -41,7 +42,7 @@ function createWindow() {
         }
     })
     win.loadFile('./app/index.html');
-    win.resizable = true;
+    // win.resizable = true;
     win.shadow = true;
     win.webContents.openDevTools()
     // win.on('blur', () => {

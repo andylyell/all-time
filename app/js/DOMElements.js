@@ -7,8 +7,12 @@ const DOMElements = {
     addButton: document.getElementById('add-button'),
     inputContainer: document.getElementById('input-container'),
     inputTimer: document.getElementById('input-timer-name'),
+    activeTimerName: document.getElementById('active-timer-name'),
     activeTimerContainer: document.getElementById('timer-container'),
-    historyContainer: document.getElementById('history-container')
+    historyContainer: document.getElementById('history-container'),
+    notification: document.getElementById('notification'),
+    notificationTitle: document.getElementById('notification-title'),
+    notificationCloseButton: document.getElementById('close-notification-button')
 };
 
 module.exports = DOMElements;

@@ -2,7 +2,7 @@ const electron = require('electron');
 const { ipcRenderer } = electron;
 const DOMElements = require('./js/DOMElements');
 const ActiveTimer = require('./js/Model/ActiveTimer');
-const { renderActiveTimers, renderSingleActiveTimer, renderSavedTimers, renderPlay, renderPause, renderReset } = require('./js/View/renderMethods');
+const { renderActiveTimers, renderSingleActiveTimer, renderSavedTimers, renderPlay, renderPause, renderReset, renderNotification, renderNoActiveTimerLabel } = require('./js/View/renderMethods');
 
 let allTimers = [];
 
@@ -152,6 +152,10 @@ DOMElements.inputTimer.addEventListener('input', (e) => {
     }
 });
 
+DOMElements.notificationCloseButton.addEventListener('click', () => {
+    DOMElements.notification.classList.remove('show');
+});
+
 //general event listeners
 document.addEventListener('click', (e) => {
 
@@ -190,9 +194,11 @@ document.addEventListener('click', (e) => {
     //listen to save button events
     if(e.target.id === 'save-button') {
         //change isSaved to be true
-        const activeTimerId = e.target.closest('.timer').id; //get elements id
-        ipcRenderer.send('save-active-timer', activeTimerId); //pass onto main process to remove from DB
+        const activeTimer = e.target.closest('.timer');
+        ipcRenderer.send('save-active-timer', activeTimer.id); //pass onto main process to remove from DB
         e.target.closest('.timer').remove(); //remove from UI
+        renderNoActiveTimerLabel();
+        renderNotification(activeTimer.querySelector('#active-timer-name').innerHTML)// show notification
     }
 
     //listen to delete button events
@@ -200,6 +206,7 @@ document.addEventListener('click', (e) => {
         const activeTimerId = e.target.closest('.timer').id; //get elements id
         ipcRenderer.send('remove-active-timer', activeTimerId); //pass onto main process to remove from DB
         e.target.closest('.timer').remove(); //remove from UI
+        renderNoActiveTimerLabel();
     };
 
 
@@ -210,6 +217,5 @@ document.addEventListener('click', (e) => {
     if(e.target.id === 'history-delete-button') {
         let activeTimerId = e.target.closest('.history-card').id; //get elements id
         ipcRenderer.send('remove-saved-timer', activeTimerId); //pass onto main process to remove from DB
-        // re-render the history cards
     };
 });

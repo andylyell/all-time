@@ -1,7 +1,5 @@
 ### TODOs
 
-- When loading in for the first time the saved and reset buttons on active timers that have timers are disabled
-- When having no active timers the 'Add a timer to get started message should appear'
 - message to say if a timer has been saved
 - truncation of long string names on the timer cards
 - search history timers function
