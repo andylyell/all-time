@@ -169,11 +169,20 @@ module.exports = {
     }
 };
 
+function shortenString(characterNo, stringToShorten) {
+
+    if(stringToShorten.length <= characterNo) {
+        return `${stringToShorten}`;
+    }
+    const shortenedString = stringToShorten.substring(0, characterNo);
+    return `${shortenedString}...`;
+}
+
 function savedTimerTemplate(savedTimer) {
     return `
         <div class="history-card" id="${savedTimer._id}">
                 <div class="history-card__info">
-                    <p class="history-card__name">${savedTimer.name}</p>
+                    <p class="history-card__name" title="${savedTimer.name}">${shortenString(15, savedTimer.name)}</p>
                     <p class="history-card__date">${renderDate(savedTimer.dateCreated)}</p>
                 </div>
                 <div class="history-card__time-container">
