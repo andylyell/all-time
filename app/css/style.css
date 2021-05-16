@@ -183,7 +183,13 @@ body {
   border-radius: 12px;
   border: 1px solid #3A3D43;
   padding: 24px;
-  margin-bottom: 16px; }
+  margin-bottom: 16px;
+  width: 400px;
+  margin-right: 16px; }
+  @media only screen and (max-width: 600px) {
+    .timer {
+      width: 100%;
+      margin-right: 0px; } }
   .timer h2 {
     font-size: 16px;
     margin-bottom: 4px;
@@ -244,7 +250,12 @@ body {
   font-size: 14px; }
 
 .timer-container {
-  margin-bottom: 80px; }
+  margin-bottom: 80px;
+  display: flex;
+  flex-wrap: wrap; }
+  @media only screen and (max-width: 600px) {
+    .timer-container {
+      display: block; } }
 
 .navigation {
   display: flex;

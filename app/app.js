@@ -167,87 +167,8 @@ DOMElements.searchInput.addEventListener('input', (e) => {
             historyCard.classList.remove('hide');
         } else {
             historyCard.classList.add('hide');
-            // const hiddenCardArr = historyCardsArray.map((historyCard) => {
-            //     return historyCard.classList.contains('hide')
-            // });
-            // if(hiddenCardArr.length === originalArray.length) {
-            //     DOMElements.historyContainer.innerHTML = `
-            // <p class="empty-text empty-text--search">No matches found</p>
-            // `;
-            // return;
-            // }
-            // else {
-            //     if(document.querySelector('.empty-text--search')) {
-            //         document.querySelector('.empty-text--search').remove();
-            //     }
-            //     return;
-            // }
         }
     });
-
-    // if(historyCardsArray.length === 0) {
-    //     console.log('no history timers');
-    //     DOMElements.historyContainer.innerHTML = `
-    //         <p class="empty-text empty-text--search">No matches found</p>
-    //         `;
-    // } 
-    // else {
-    //     if(document.querySelector('.empty-text--search')) {
-    //         document.querySelector('.empty-text--search').remove();
-    //     }
-    // }
-
-    //controller function to evalute criteria
-    function evaluateCritera() {
-        const searchInputValue = utilities.sanitise(searchInput.value); // get sanitised value of search input
-        const tagsArray = selectedTags.map((tag) => { //check which tags have been selected
-            return tag.dataset.tagType;
-        });
-        articlesArray.forEach((article) => { // iterate over each article
-            const contentLinkTag = article.querySelector('.content-link__tag').dataset.tagType; //get article tag
-            const articleTitle = article.querySelector('.content-link__title').innerHTML; // get the article header
-            const sanitisedArticleTitle = utilities.sanitise(articleTitle); // sanitise the header
-            //if there is search input but no tags
-            if(searchInputValue && tagsArray.length === 0) {
-                if(!sanitisedArticleTitle.includes(searchInputValue)) { // check if the article title contains the search input value
-                    article.classList.add('hidden');
-                } else {
-                    article.classList.remove('hidden');
-                }
-            }
-            // if there is search input and tags
-            else if(searchInputValue && tagsArray.length >= 1) {
-                const matchesTag = tagsArray.filter((tag) => { //check if this tag matches any of the tags in the array
-                    if(tag === contentLinkTag) {
-                        return tag;
-                    }
-                });
-                if(sanitisedArticleTitle.includes(searchInputValue) && matchesTag.length >= 1) {
-                    article.classList.remove('hidden');
-                } else {
-                    article.classList.add('hidden');
-                }
-            }
-            // if there is no search input and tags
-            else if(!searchInputValue && tagsArray.length >= 1) {
-                const matchesTag = tagsArray.filter((tag) => { //check if this tag matches any of the tags in the array
-                    if(tag === contentLinkTag) {
-                        return tag;
-                    }
-                });
-                if(matchesTag.length >= 1) {
-                    article.classList.remove('hidden');
-                } else {
-                    article.classList.add('hidden'); // if they do not contain a tag then apply a hidden class to the article
-                }
-            }
-            // if there is no search input and no tags
-            else if(!searchInputValue && tagsArray.length === 0) {
-                    article.classList.remove('hidden');
-            }
-        });
-    }
-
 })
 
 //general event listeners
@@ -312,7 +233,7 @@ document.addEventListener('click', (e) => {
     //listen to delete button events
     if(e.target.id === 'history-delete-button') {
         let activeTimerId = e.target.closest('.history-card').id; //get elements id
-        renderNotification('delete', activeTimerId, e.target.closest('.history-card').querySelector('.history-card__name').innerHTML) // show notification
+        renderNotification('delete', activeTimerId, e.target.closest('.history-card').querySelector('.history-card__name').title) // show notification
         ipcRenderer.send('remove-saved-timer', activeTimerId); //pass onto main process to remove from DB
     };
 

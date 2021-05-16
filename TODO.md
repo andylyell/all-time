@@ -1,10 +1,7 @@
 ### TODOs
 
-- something is wrong with the day logic on the timers
-- search history timers function
-- truncation of long string names on the timer cards
+- Reset history  button should be disabled if there are no saved timers to reset
 - Accessibility with the tabbing order (tabs to menu when off screen)
 - Quit functions if timers are still running
 - Hover states on buttons
 - App Icon for build
-- Ask Joe to test something

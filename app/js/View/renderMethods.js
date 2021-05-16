@@ -117,14 +117,12 @@ module.exports = {
             notificationMessage = '';
         }
 
-        // let notificationMessage = notificationType == 'save' ? `Timer saved` : `Timer deleted`;
-
         // create notification
         let notificationTemplate = `
             <div class="notification ${notificationTypeStyle}" id="${activeTimerId+1}">
                 <div class="notification__container">
                     <div class="notification__information">
-                        <p class="notification__timer-name" id="notification-title">${activeTimerName}</p>
+                        <p class="notification__timer-name" id="notification-title">${shortenString(40, activeTimerName)}</p>
                         <p class="notification__message">${notificationMessage}</p>
                     </div>
                     <button class="button button__tertiary button--notification" id="close-notification-button">
@@ -136,25 +134,23 @@ module.exports = {
                     </button>
                 </div>
             </div>
-        `
-
+        `;
 
         // put it into the DOM
         DOMElements.notificationWrapper.insertAdjacentHTML('beforeend', notificationTemplate);
 
         const newNotification = document.getElementById(activeTimerId+1);
 
-        // newNotification.classList.add('show');
         setTimeout(() => {
             newNotification.classList.add('show');
         }, 10);
 
-        // apply show class with setTimeout
-        if(newNotification.classList.contains('show')){
-            setTimeout(() => {
+        setTimeout(() => {
+            if(newNotification.classList.contains('show')){
                 newNotification.classList.remove('show');
-            }, 3500);
-        }
+            }
+        }, 3500);
+
         setTimeout(() => {
             newNotification.remove();
         }, 4000);
