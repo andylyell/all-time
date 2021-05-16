@@ -30,6 +30,9 @@ body {
       width: 20px;
       height: 20px;
       fill: #26282B; }
+    .button__primary--disabled {
+      background: #525457;
+      cursor: not-allowed; }
   .button__secondary {
     padding: 4px;
     border: 1px solid #3A3D43;

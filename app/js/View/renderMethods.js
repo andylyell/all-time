@@ -22,9 +22,12 @@ module.exports = {
 
     //render the saved timers
     renderSavedTimers: (savedTimers) => {
+
         if(savedTimers.length === 0) {
             DOMElements.searchInput.disabled = true;
             DOMElements.searchInput.classList.add('disabled');
+            DOMElements.resetHistoryButton.disabled = true;
+            DOMElements.resetHistoryButton.classList.add('button__primary--disabled');
             DOMElements.historyContainer.innerHTML = `
             <p class="empty-text empty-text--saved">No saved timers</p>
             `;
@@ -33,6 +36,8 @@ module.exports = {
 
         DOMElements.searchInput.disabled = false;
         DOMElements.searchInput.classList.remove('disabled');
+        DOMElements.resetHistoryButton.disabled = false;
+        DOMElements.resetHistoryButton.classList.remove('button__primary--disabled');
         DOMElements.historyContainer.innerHTML = '';
         savedTimers.forEach((savedTimer) => {
             DOMElements.historyContainer.insertAdjacentHTML('beforeend', savedTimerTemplate(savedTimer));

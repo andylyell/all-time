@@ -25,6 +25,11 @@
             height: 20px;
             fill: $dark-grey-1;
         }
+
+        &--disabled {
+            background: #525457;
+            cursor: not-allowed;
+        }
     }
 
     &__secondary {
