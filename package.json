@@ -1,5 +1,5 @@
 {
-  "name": "work-timer",
+  "name": "all-time",
   "version": "1.0.0",
   "description": "work timer electron app",
   "main": "main.js",
@@ -36,7 +36,7 @@
         {
           "name": "@electron-forge/maker-squirrel",
           "config": {
-            "name": "work_timer"
+            "name": "all-time"
           }
         },
         {
