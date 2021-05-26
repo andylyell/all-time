@@ -19,10 +19,11 @@ const {
 // DATABASE SET UP
 ////////////////////////////
 
-const db = {}; //init empty object as datastore
+console.log(app.getAppPath());
+
+const db = {}; //init empty object as datastore~
 // load collections into empty db object
-db.activeTimers = new Datastore({ filename: './collections/activeTimers.db', autoload: true });
-// db.savedTimers = new Datastore({ filename: './collections/savedTimers.db', autoload: true });
+db.activeTimers = new Datastore({ filename: path.join(app.getAppPath(), './collections/activeTimers.db'), autoload: true });
 
 ////////////////////////////
 // CREATE WINDOW
@@ -44,10 +45,7 @@ function createWindow() {
     win.loadFile('./app/index.html');
     // win.resizable = true;
     win.shadow = true;
-    win.webContents.openDevTools()
-    // win.on('blur', () => {
-    //     console.log('Lost focus');
-    // })
+    // win.webContents.openDevTools()
 }
 
 app.whenReady().then(() => {
