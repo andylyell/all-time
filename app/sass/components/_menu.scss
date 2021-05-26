@@ -6,10 +6,27 @@
     width: 366px;
     top: 0;
     bottom: 0;
-    right: -366px;
+    right: -450px;
     z-index: 100;
     padding: 16px;
     transition: $transition-1;
+
+    &__background {
+        position: fixed;
+        z-index: 80;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: $dark-grey-1;
+        opacity: .5;
+        visibility: hidden;
+        transition: $transition-1;
+
+        &.show {
+            visibility: visible;
+        }
+    }
 
     &__header {
         display: flex;

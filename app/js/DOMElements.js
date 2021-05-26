@@ -1,5 +1,6 @@
 const DOMElements = {
     menu: document.getElementById('menu'),
+    menuBackground: document.getElementById('menu-background'),
     menuButton: document.getElementById('menu-button'),
     menuCloseButton: document.getElementById('menu-close-button'),
     resetHistoryButton: document.getElementById('reset-history-button'),

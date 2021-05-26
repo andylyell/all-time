@@ -131,10 +131,23 @@ body {
   width: 366px;
   top: 0;
   bottom: 0;
-  right: -366px;
+  right: -450px;
   z-index: 100;
   padding: 16px;
   transition: all 0.2s ease-in; }
+  .menu__background {
+    position: fixed;
+    z-index: 80;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #26282B;
+    opacity: .5;
+    visibility: hidden;
+    transition: all 0.2s ease-in; }
+    .menu__background.show {
+      visibility: visible; }
   .menu__header {
     display: flex;
     align-items: center;
@@ -185,14 +198,12 @@ body {
 .timer {
   border-radius: 12px;
   border: 1px solid #3A3D43;
-  padding: 24px;
-  margin-bottom: 16px;
-  width: 400px;
-  margin-right: 16px; }
-  @media only screen and (max-width: 600px) {
+  padding: 24px; }
+  @media only screen and (max-width: 800px) {
     .timer {
       width: 100%;
-      margin-right: 0px; } }
+      margin-right: 0px;
+      margin-bottom: 16px; } }
   .timer h2 {
     font-size: 16px;
     margin-bottom: 4px;
@@ -254,9 +265,14 @@ body {
 
 .timer-container {
   margin-bottom: 80px;
-  display: flex;
-  flex-wrap: wrap; }
-  @media only screen and (max-width: 600px) {
+  display: grid;
+  width: 100%;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px; }
+  @media only screen and (max-width: 1260px) {
+    .timer-container {
+      grid-template-columns: repeat(2, 1fr); } }
+  @media only screen and (max-width: 800px) {
     .timer-container {
       display: block; } }
 

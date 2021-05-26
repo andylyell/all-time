@@ -110,9 +110,11 @@ ipcRenderer.on('update-new-timer', (event, args) => {
 
 DOMElements.menuButton.addEventListener('click', () => {
     DOMElements.menu.classList.add('show');
+    DOMElements.menuBackground.classList.add('show');
 });
 
 DOMElements.menuCloseButton.addEventListener('click', () => {
+    DOMElements.menuBackground.classList.remove('show');
     DOMElements.menu.classList.remove('show');
 });
 

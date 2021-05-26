@@ -3,13 +3,11 @@
     border-radius: $border-radius-1 * 2;
     border: 1px solid $dark-grey-2;
     padding: 24px;
-    margin-bottom: 16px;
-    width: 400px;
-    margin-right: 16px;
 
-    @media only screen and (max-width: 600px) { 
+    @media only screen and (max-width: 800px) { 
         width: 100%;
         margin-right: 0px;
+        margin-bottom: 16px;
     };
 
     & h2 {

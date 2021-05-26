@@ -9,9 +9,14 @@ body {
 
 .timer-container {
     margin-bottom: 80px;
-    display: flex;
-    flex-wrap: wrap;
-    @media only screen and (max-width: 600px) { 
+    display: grid;
+    width: 100%;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    @media only screen and (max-width: 1260px) { 
+        grid-template-columns: repeat(2, 1fr);
+    };
+    @media only screen and (max-width: 800px) { 
         display: block;
     };
 }
