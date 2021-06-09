@@ -74,8 +74,9 @@ module.exports = {
         timerCard.querySelector('.timer__control-timer').classList.remove('show');
         timerCard.querySelector('#reset-button').disabled = false;
         timerCard.querySelector('#reset-button').classList.remove('button__tertiary--disabled');
-        timerCard.querySelector('#save-button').disabled = false;
         timerCard.querySelector('#save-button').classList.remove('button__tertiary--disabled');
+        timerCard.querySelector('#delete-button').disabled = true;
+        timerCard.querySelector('#save-button').disabled = true;
     },
 
     renderPause: (targetToRemove, timerCard) => {
@@ -83,6 +84,8 @@ module.exports = {
         timerCard.querySelector('.timer__control-time').insertAdjacentHTML('afterbegin', renderPlayButton()); //replace play button with pause button
         timerCard.classList.remove('active');
         timerCard.querySelector('.timer__control-timer').classList.add('show');
+        timerCard.querySelector('#delete-button').disabled = false;
+        timerCard.querySelector('#save-button').disabled = false;
     },
 
     renderReset: (timerCard, activeTimer) => {
@@ -101,6 +104,7 @@ module.exports = {
         timerCard.querySelector('#reset-button').classList.add('button__tertiary--disabled');
         timerCard.querySelector('#save-button').disabled = true;
         timerCard.querySelector('#save-button').classList.add('button__tertiary--disabled');
+        timerCard.querySelector('#delete-button').disabled = false;
 
     },
 
@@ -188,7 +192,7 @@ function savedTimerTemplate(savedTimer) {
                 </div>
                 <div class="history-card__time-container">
                     <p class="history-card__time">${renderActiveTime(savedTimer.elapsedTime)}</p>
-                    <button class="button button__tertiary" id="history-delete-button">
+                    <button class="button button__tertiary" id="history-delete-button" tabindex="${checkIfShown()}">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
                             <path d="M12 12h2v12h-2zM18 12h2v12h-2z" />
                             <path d="M4 6v2h2v20a2 2 0 002 2h16a2 2 0 002-2V8h2V6zm4 22V8h16v20zM12 2h8v2h-8z" />
@@ -246,6 +250,7 @@ function activeTimerTemplate(activeTimer) {
     `;
 }
 
+
 function checkIfStarted(time) {
     if(time > 0) {
         return '';
@@ -261,6 +266,15 @@ function disabledStyles(time) {
     } 
     else {
         return 'button__tertiary--disabled'
+    }
+}
+
+function checkIfShown() {
+    if(DOMElements.menu.classList.contains('show')) {
+        return '1';
+    } 
+    else {
+        return '-1';
     }
 }
 

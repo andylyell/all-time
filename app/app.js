@@ -1,4 +1,5 @@
 const electron = require('electron');
+const { menuCloseButton } = require('./js/DOMElements');
 const { ipcRenderer } = electron;
 const DOMElements = require('./js/DOMElements');
 const ActiveTimer = require('./js/Model/ActiveTimer');
@@ -7,11 +8,39 @@ const { renderActiveTimers, renderSingleActiveTimer, renderSavedTimers, renderPl
 let allTimers = [];
 
 //Get data as in memory data
-window.addEventListener('load', () => ipcRenderer.send('loadAll'));
+window.addEventListener('load', () => {
+    ipcRenderer.send('loadAll');
+});
+
+//Set menu items to be unfocusable on when not expanded
+// DOMElements.menuCloseButton.tabIndex = '-1';
+// DOMElements.searchInput.tabIndex = '-1';
+// DOMElements.resetHistoryButton.tabIndex = '-1';
 
 //////////////////////////////////
 //FUNCTIONS
 //////////////////////////////////
+const unfocusMenuElements = () => {
+    const focusableElements = 'button, [href], input, select, textarea';
+    const allMenuFocusableElements = DOMElements.menu.querySelectorAll(focusableElements); // get first element to be focused inside modal
+    const allMenuFocusableElementsArr = Array.from(allMenuFocusableElements);
+    allMenuFocusableElementsArr.forEach((el) => {
+        console.log(el);
+        el.tabIndex = '-1'
+    })
+}
+
+const focusMenuElements = () => {
+    const focusableElements = 'button, [href], input, select, textarea';
+    const allMenuFocusableElements = DOMElements.menu.querySelectorAll(focusableElements); // get first element to be focused inside modal
+    const allMenuFocusableElementsArr = Array.from(allMenuFocusableElements);
+    allMenuFocusableElementsArr.forEach((el, index) => {
+        console.log(el);
+        el.tabIndex = `${index}`
+    })
+}
+
+
 const sortTimers = (timersArray) => {
 
     let savedTimers = [];
@@ -57,7 +86,9 @@ const getCurrentTimer = (cardId) => {
         }
     });
     return timerObject;
-}
+};
+
+
 
 //////////////////////////////////
 // INITIAL LOAD FUNCTIONS
@@ -70,6 +101,7 @@ ipcRenderer.on('databases-loaded', (event, args) => {
     console.log(allTimers);
     renderActiveTimers(allTimers.activeTimers);
     renderSavedTimers(allTimers.savedTimers);
+    unfocusMenuElements();
 });
 
 //////////////////////////////////
@@ -107,15 +139,67 @@ ipcRenderer.on('update-new-timer', (event, args) => {
 //////////////////////////////////
 //EVENT LISTENERS
 //////////////////////////////////
-
 DOMElements.menuButton.addEventListener('click', () => {
+
+    //set unfocusable elements
+    unfocusElArray = [DOMElements.menuButton, DOMElements.inputTimer, DOMElements.addButton];
+    unfocusElArray.forEach((el) => {
+        el.tabIndex = '-1'
+    })
+
+    // DOMElements.menuButton.tabIndex = '-1';
     DOMElements.menu.classList.add('show');
     DOMElements.menuBackground.classList.add('show');
+    menuCloseButton.focus();
+    
+    focusMenuElements();
+
+
+    const focusableElements = 'button, [href], input, select, textarea';
+    const allFocusableElement = DOMElements.menu.querySelectorAll(focusableElements);
+    const firstFocusableElement = DOMElements.menu.querySelectorAll(focusableElements)[0]; // get first element to be focused inside modal
+    const lastFocusableElement = DOMElements.menu.querySelectorAll(focusableElements)[allFocusableElement.length -1]; // get last element to be focused inside modal
+
+    console.log(firstFocusableElement);
+    console.log(lastFocusableElement);
+
+    document.addEventListener('keydown', function (e) {
+
+        let isTabPressed = e.key === 'Tab' || e.key === 9;
+
+        if (!isTabPressed) {
+            return;
+        }
+
+        if (e.shiftKey) { // if shift key pressed for shift + tab combination
+            if (document.activeElement === firstFocusableElement) {
+                console.log('suppose to go to last');
+                lastFocusableElement.focus(); // add focus for the last focusable element
+                e.preventDefault();
+            }
+        } else { // if tab key is pressed
+            if (document.activeElement === lastFocusableElement) { // if focused has reached to last focusable element then focus first focusable element after pressing tab
+                console.log('suppose to go to first');
+                firstFocusableElement.focus(); // add focus for the first focusable element
+                e.preventDefault();
+            } else if (document.activeElement === firstFocusableElement){
+                console.log('suppose to go to last');
+                DOMElements.menuCloseButton.focus() // add focus for the last focusable element
+                e.preventDefault();
+            }
+        }
+    });
 });
 
 DOMElements.menuCloseButton.addEventListener('click', () => {
+    unfocusElArray = [DOMElements.menuButton, DOMElements.inputTimer, DOMElements.addButton];
+    unfocusElArray.forEach((el, index) => {
+        el.tabIndex = `${index}`
+    })
     DOMElements.menuBackground.classList.remove('show');
     DOMElements.menu.classList.remove('show');
+    unfocusMenuElements();
+    DOMElements.menuButton.focus();
 });
 
 DOMElements.resetHistoryButton.addEventListener('click', () => {
@@ -190,7 +274,6 @@ document.addEventListener('click', (e) => {
 
     //listen to pause button events
     if(e.target.id === 'pause-button') {
-
         const timerCard = e.target.closest('.timer'); //get timerCard that houses play button
         const currentTimer = getCurrentTimer(timerCard.id); //call function to get the current Timer Object
         currentTimer.pauseTimer(); //pause time within the right activeTimer Object
@@ -244,6 +327,7 @@ document.addEventListener('click', (e) => {
     ////////////////////////////
     if(e.target.id === 'close-notification-button') {
         // remove show class
+        e.target.tabIndex = '-1';
         const notification = e.target.closest('.notification');
         notification.classList.remove('show');
         // set timeout to remove from DOM
