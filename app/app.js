@@ -25,7 +25,6 @@ const unfocusMenuElements = () => {
     const allMenuFocusableElements = DOMElements.menu.querySelectorAll(focusableElements); // get first element to be focused inside modal
     const allMenuFocusableElementsArr = Array.from(allMenuFocusableElements);
     allMenuFocusableElementsArr.forEach((el) => {
-        console.log(el);
         el.tabIndex = '-1'
     })
 }
@@ -35,7 +34,6 @@ const focusMenuElements = () => {
     const allMenuFocusableElements = DOMElements.menu.querySelectorAll(focusableElements); // get first element to be focused inside modal
     const allMenuFocusableElementsArr = Array.from(allMenuFocusableElements);
     allMenuFocusableElementsArr.forEach((el, index) => {
-        console.log(el);
         el.tabIndex = `${index}`
     })
 }
@@ -79,7 +77,6 @@ const getCurrentTimer = (cardId) => {
     //select activeTimer object from data array
     let timerObject
     allTimers.activeTimers.forEach((timer) => {
-        // console.log(timer);
         if(timer._id === cardId) {
             timerObject = timer;
             return;
@@ -98,7 +95,6 @@ const getCurrentTimer = (cardId) => {
 ipcRenderer.on('databases-loaded', (event, args) => {
     // activeTimers = args
     allTimers = sortTimers(args);
-    console.log(allTimers);
     renderActiveTimers(allTimers.activeTimers);
     renderSavedTimers(allTimers.savedTimers);
     unfocusMenuElements();
@@ -110,7 +106,6 @@ ipcRenderer.on('databases-loaded', (event, args) => {
 
 //update activeTimers
 ipcRenderer.on('update-saved-timers', (event, args) => {
-    // console.log('updated'); 
     allTimers = sortTimers(args);
     renderSavedTimers(allTimers.savedTimers);
 });
@@ -147,22 +142,16 @@ DOMElements.menuButton.addEventListener('click', () => {
         el.tabIndex = '-1'
     })
 
-    // DOMElements.menuButton.tabIndex = '-1';
     DOMElements.menu.classList.add('show');
     DOMElements.menuBackground.classList.add('show');
     menuCloseButton.focus();
     
     focusMenuElements();
 
-
     const focusableElements = 'button, [href], input, select, textarea';
     const allFocusableElement = DOMElements.menu.querySelectorAll(focusableElements);
     const firstFocusableElement = DOMElements.menu.querySelectorAll(focusableElements)[0]; // get first element to be focused inside modal
     const lastFocusableElement = DOMElements.menu.querySelectorAll(focusableElements)[allFocusableElement.length -1]; // get last element to be focused inside modal
-
-    console.log(firstFocusableElement);
-    console.log(lastFocusableElement);
-
     document.addEventListener('keydown', function (e) {
 
         let isTabPressed = e.key === 'Tab' || e.key === 9;
@@ -173,17 +162,14 @@ DOMElements.menuButton.addEventListener('click', () => {
 
         if (e.shiftKey) { // if shift key pressed for shift + tab combination
             if (document.activeElement === firstFocusableElement) {
-                console.log('suppose to go to last');
                 lastFocusableElement.focus(); // add focus for the last focusable element
                 e.preventDefault();
             }
         } else { // if tab key is pressed
             if (document.activeElement === lastFocusableElement) { // if focused has reached to last focusable element then focus first focusable element after pressing tab
-                console.log('suppose to go to first');
                 firstFocusableElement.focus(); // add focus for the first focusable element
                 e.preventDefault();
             } else if (document.activeElement === firstFocusableElement){
-                console.log('suppose to go to last');
                 DOMElements.menuCloseButton.focus() // add focus for the last focusable element
                 e.preventDefault();
             }
@@ -288,7 +274,6 @@ document.addEventListener('click', (e) => {
         const timerCard = e.target.closest('.timer'); //get timerCard that houses play button
         const currentTimer = getCurrentTimer(timerCard.id); //call function to get the current Timer Object
         currentTimer.resetTimer();
-        console.log(currentTimer);
         ipcRenderer.send('reset-active-timer', currentTimer); //update DB with elapse time set to 0 and startTime set to 0
         renderReset(timerCard, currentTimer);
     };

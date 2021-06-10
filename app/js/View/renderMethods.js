@@ -3,7 +3,6 @@ const DOMElements = require('../DOMElements');
 module.exports = {
     //render the active timers
     renderActiveTimers: (activeTimers) => {
-        console.log('render');
         if(activeTimers.length === 0) {
             DOMElements.activeTimerContainer.innerHTML = `
             <p class="empty-text empty-text--active">Add a timer to get started</p>
@@ -109,12 +108,6 @@ module.exports = {
     },
 
     renderNotification: (notificationType, activeTimerId, activeTimerName) => {
-        
-        console.log('fired');
-        console.log(notificationType);
-        console.log(activeTimerId);
-        console.log(activeTimerName);
-
         let notificationTypeStyle = notificationType == 'save' ? `notification--save` : `notification--delete`;
 
         let notificationMessage

@@ -19,7 +19,7 @@ const {
 // DATABASE SET UP
 ////////////////////////////
 
-console.log(app.getAppPath());
+// console.log(app.getAppPath());
 
 const db = {}; //init empty object as datastore~
 // load collections into empty db object
@@ -45,7 +45,7 @@ function createWindow() {
     win.loadFile('./app/index.html');
     // win.resizable = true;
     win.shadow = true;
-    win.webContents.openDevTools()
+    // win.webContents.openDevTools()
 }
 
 app.whenReady().then(() => {
@@ -95,7 +95,7 @@ ipcMain.on('loadAll', (event, args) => {
 ipcMain.on('add-new-timer', (event, newActiveTimer) => {
     createTimer(db.activeTimers, newActiveTimer)
         .then((newTimer) => {
-            console.log(newTimer);
+            // console.log(newTimer);
             event.reply('update-new-timer', newTimer);
         })
         .catch((err) => {
@@ -109,7 +109,7 @@ ipcMain.on('remove-active-timer', (event, activeTimerId) => {
 
     deleteActiveTimer(db.activeTimers, activeTimerId)
     .then((result) => {
-        console.log(result);
+        // console.log(result);
     })
     .catch((err) => {
         console.log(err);
@@ -127,7 +127,7 @@ ipcMain.on('remove-active-timer', (event, activeTimerId) => {
 ipcMain.on('remove-saved-timer', (event, activeTimerId) => {
     deleteActiveTimer(db.activeTimers, activeTimerId)
     .then((result) => {
-        console.log(result);
+        // console.log(result);
     })
     .catch((err) => {
         console.log(err);
@@ -148,7 +148,7 @@ ipcMain.on('save-active-timer', (event, activeTimerId) => {
     //will need to update the property isSaved from false to true
     saveActiveTimer(db.activeTimers, activeTimerId)
     .then((message) => {
-        console.log(message);
+        // console.log(message);
     })
     .catch((err) => {
         console.log(err);

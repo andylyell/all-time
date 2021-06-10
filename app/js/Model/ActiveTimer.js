@@ -27,7 +27,6 @@ class ActiveTimer {
     // pause timer
     pauseTimer() {
         clearInterval(this.time);
-        console.log('timer paused');
     }
 
     // reset timer
@@ -35,7 +34,6 @@ class ActiveTimer {
         clearInterval(this.time);
         this.elapsedTime = 0;
         this.startTime = 0;
-        console.log('timer reset');
     }
 };
 
