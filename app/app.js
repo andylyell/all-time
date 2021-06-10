@@ -141,8 +141,8 @@ ipcRenderer.on('update-new-timer', (event, args) => {
 //////////////////////////////////
 DOMElements.menuButton.addEventListener('click', () => {
 
-    //set unfocusable elements
-    unfocusElArray = [DOMElements.menuButton, DOMElements.inputTimer, DOMElements.addButton];
+    const alltimerButtonsArr = Array.from(document.querySelectorAll('.timer-control-button'));
+    unfocusElArray = [DOMElements.menuButton, DOMElements.inputTimer, DOMElements.addButton, ...alltimerButtonsArr];
     unfocusElArray.forEach((el) => {
         el.tabIndex = '-1'
     })
@@ -192,9 +192,11 @@ DOMElements.menuButton.addEventListener('click', () => {
 });
 
 DOMElements.menuCloseButton.addEventListener('click', () => {
-    unfocusElArray = [DOMElements.menuButton, DOMElements.inputTimer, DOMElements.addButton];
+    const alltimerButtonsArr = Array.from(document.querySelectorAll('.timer-control-button'));
+    unfocusElArray = [DOMElements.menuButton, DOMElements.inputTimer, DOMElements.addButton, ...alltimerButtonsArr];
     unfocusElArray.forEach((el, index) => {
-        el.tabIndex = `${index}`
+        // el.tabIndex = `${index}`
+        el.tabIndex = `1`
     })
     DOMElements.menuBackground.classList.remove('show');
     DOMElements.menu.classList.remove('show');
@@ -325,11 +327,11 @@ document.addEventListener('click', (e) => {
     ////////////////////////////
     // NOTIFICATION EVENTS
     ////////////////////////////
-    if(e.target.id === 'close-notification-button') {
+    if(e.target.id === 'close-notification-button') {       
         // remove show class
         e.target.tabIndex = '-1';
         const notification = e.target.closest('.notification');
-        notification.classList.remove('show');
+        notification.classList.remove('show');  
         // set timeout to remove from DOM
     }
 });
