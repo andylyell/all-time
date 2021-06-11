@@ -1,8 +1,6 @@
 # all-time
 A simple electron application for creating timers.
 
----
-
 ### Instructions
 
 1. run `npm install` to install node depenedencies
