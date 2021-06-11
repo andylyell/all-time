@@ -5,3 +5,4 @@ A simple electron application for creating timers.
 
 1. run `npm install` to install node depenedencies
 2. run `npm run watch:app` to use nodemon to watch the application
+3. run `npm run make` to use electron forge to create the application for your your OS
